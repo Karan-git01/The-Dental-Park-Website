@@ -1,0 +1,423 @@
+/* src/index.css */
+@import "tailwindcss";
+
+@theme {
+  /* Colors */
+  --color-neutral-50: oklch(0.9702 0 0);
+  --color-neutral-100: oklch(0.9401 0 0);
+  --color-neutral-200: oklch(0.9006 0 0);
+  --color-neutral-300: oklch(0.8297 0 0);
+  --color-neutral-400: oklch(0.7412 0 0);
+  --color-neutral-500: oklch(0.6301 0 0);
+  --color-neutral-600: oklch(0.5208 0 0);
+  --color-neutral-700: oklch(0.4202 0 0);
+  --color-neutral-800: oklch(0.3211 0 0);
+  --color-neutral-900: oklch(0.2221 0 0);
+  --color-neutral-950: oklch(0.1286 0 0);
+
+  /* Brand palette — CONFIRMED. Sourced from the uploaded Lovable global
+     stylesheet ("Emerald Prestige: deep emerald + gold on warm ivory").
+     This replaces the earlier orange placeholder guess — the real brand
+     color is a deep emerald, not orange. Supersedes the estimated
+     #F2A46E stroke color used for the temporary logo SVG; swap that
+     stroke to --color-brand once the logo is rebuilt. */
+  --color-brand: oklch(0.378 0.073 168.94);
+  --color-brand-hover: oklch(0.4585 0.0902 169.4);
+  --color-brand-light: oklch(0.9344 0.0306 159.07);
+  --color-brand-accent: oklch(0.7432 0.1171 89.51);
+  --color-gold: oklch(0.7432 0.1171 89.51);
+  --color-gold-soft: oklch(0.9337 0.0434 92.67);
+  --color-ink: oklch(0.2143 0.0177 170.07);
+  --color-body: oklch(0.442 0.038 165.45);
+  --color-muted-ink: oklch(0.6758 0.0243 164.17);
+  --color-line: oklch(0.9015 0.0199 87.52);
+  --color-surface: oklch(0.979 0.0082 91.48);
+  --color-background: oklch(0.9947 0.003 91.5);
+
+  /* Still PLACEHOLDER — not present in the extracted token file (Section 34)
+     or in the Lovable source stylesheet just supplied. Needed by
+     TreatmentsMegaMenu.jsx's bg-brand-surface. Do not treat as confirmed;
+     get the real value from the approved reference design before final QA. */
+  --color-brand-surface: #FDF6EF;
+
+  /* Fonts — CONFIRMED. Sourced from the Lovable global stylesheet. */
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", "Playfair Display", ui-serif, Georgia, serif;
+  --font-script: "Caveat", cursive;
+
+  /* Spacing */
+  --spacing-3: 0.375rem;
+  --spacing-4: 0.5rem;
+  --spacing-6: 0.75rem;
+  --spacing-7: 0.875rem;
+  --spacing-8: 1rem;
+  --spacing-10: 1.25rem;
+  --spacing-12: 1.5rem;
+  --spacing-14: 1.75rem;
+  --spacing-16: 2rem;
+  --spacing-18: 2.25rem;
+
+  /* Border Radius */
+  --radius-xl: 0.875rem;
+  --radius-2xl: 1.125rem;
+  --radius-3xl: 1.5rem;
+
+  /* Shadows — exact extracted tokens (Section 34), unchanged */
+  --shadow-xs: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.999994 0.0000455678 0.0000200868 / 0.4) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px;
+  --shadow-2xl: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklch(0.378 0.073 168.94 / 0.2) 0px 18px 40px -24px;
+
+  /* Nav/float/card shadows — CONFIRMED. Sourced from the Lovable stylesheet
+     (brand-tinted, not generic black — --shadow-card here is the same
+     formula as the extracted --shadow-2xl above, just under the semantic
+     name components actually reference). Replaces the earlier generic
+     rgba(0,0,0,...) placeholders. */
+  --shadow-nav: 0 16px 44px -26px oklch(0.378 0.073 168.94 / 0.24);
+  --shadow-float: 0 24px 60px -28px oklch(0.378 0.073 168.94 / 0.24);
+  --shadow-card: 0 18px 40px -24px oklch(0.378 0.073 168.94 / 0.2);
+
+  /* Typography — fluid, clamp()-based (Section 23a)
+     Mobile endpoint = ~65% placeholder, confirmed per-component
+     against mobile reference during build. Viewports: 375px–1440px. */
+  --text-9px: clamp(0.3656rem, 0.3656rem + (0.5625rem - 0.3656rem) * ((100vw - 375px) / (1440px - 375px)), 0.5625rem);
+  --text-10px: clamp(0.4063rem, 0.4063rem + (0.625rem - 0.4063rem) * ((100vw - 375px) / (1440px - 375px)), 0.625rem);
+  --text-10\.5px: clamp(0.4266rem, 0.4266rem + (0.6563rem - 0.4266rem) * ((100vw - 375px) / (1440px - 375px)), 0.6563rem);
+  --text-11px: clamp(0.4469rem, 0.4469rem + (0.6875rem - 0.4469rem) * ((100vw - 375px) / (1440px - 375px)), 0.6875rem);
+  --text-12px: clamp(0.4875rem, 0.4875rem + (0.75rem - 0.4875rem) * ((100vw - 375px) / (1440px - 375px)), 0.75rem);
+  --text-13px: clamp(0.5281rem, 0.5281rem + (0.8125rem - 0.5281rem) * ((100vw - 375px) / (1440px - 375px)), 0.8125rem);
+  --text-13\.5px: clamp(0.5485rem, 0.5485rem + (0.8438rem - 0.5485rem) * ((100vw - 375px) / (1440px - 375px)), 0.8438rem);
+  --text-14px: clamp(0.5688rem, 0.5688rem + (0.875rem - 0.5688rem) * ((100vw - 375px) / (1440px - 375px)), 0.875rem);
+  --text-14\.5px: clamp(0.5891rem, 0.5891rem + (0.9063rem - 0.5891rem) * ((100vw - 375px) / (1440px - 375px)), 0.9063rem);
+  --text-15px: clamp(0.6094rem, 0.6094rem + (0.9375rem - 0.6094rem) * ((100vw - 375px) / (1440px - 375px)), 0.9375rem);
+  --text-15\.5px: clamp(0.6297rem, 0.6297rem + (0.9688rem - 0.6297rem) * ((100vw - 375px) / (1440px - 375px)), 0.9688rem);
+  --text-16px: clamp(0.65rem, 0.65rem + (1rem - 0.65rem) * ((100vw - 375px) / (1440px - 375px)), 1rem);
+  --text-17px: clamp(0.6906rem, 0.6906rem + (1.0625rem - 0.6906rem) * ((100vw - 375px) / (1440px - 375px)), 1.0625rem);
+  --text-18px: clamp(0.7313rem, 0.7313rem + (1.125rem - 0.7313rem) * ((100vw - 375px) / (1440px - 375px)), 1.125rem);
+  --text-19px: clamp(0.7719rem, 0.7719rem + (1.1875rem - 0.7719rem) * ((100vw - 375px) / (1440px - 375px)), 1.1875rem);
+  --text-20px: clamp(0.8125rem, 0.8125rem + (1.25rem - 0.8125rem) * ((100vw - 375px) / (1440px - 375px)), 1.25rem);
+  --text-22px: clamp(0.8938rem, 0.8938rem + (1.375rem - 0.8938rem) * ((100vw - 375px) / (1440px - 375px)), 1.375rem);
+  --text-26px: clamp(1.0563rem, 1.0563rem + (1.625rem - 1.0563rem) * ((100vw - 375px) / (1440px - 375px)), 1.625rem);
+  --text-32px: clamp(1.3rem, 1.3rem + (2rem - 1.3rem) * ((100vw - 375px) / (1440px - 375px)), 2rem);
+  --text-36px: clamp(1.4625rem, 1.4625rem + (2.25rem - 1.4625rem) * ((100vw - 375px) / (1440px - 375px)), 2.25rem);
+  --text-38px: clamp(1.5438rem, 1.5438rem + (2.375rem - 1.5438rem) * ((100vw - 375px) / (1440px - 375px)), 2.375rem);
+  --text-40px: clamp(1.625rem, 1.625rem + (2.5rem - 1.625rem) * ((100vw - 375px) / (1440px - 375px)), 2.5rem);
+  --text-42px: clamp(1.7063rem, 1.7063rem + (2.625rem - 1.7063rem) * ((100vw - 375px) / (1440px - 375px)), 2.625rem);
+  --text-44px: clamp(1.7875rem, 1.7875rem + (2.75rem - 1.7875rem) * ((100vw - 375px) / (1440px - 375px)), 2.75rem);
+  --text-46px: clamp(1.8688rem, 1.8688rem + (2.875rem - 1.8688rem) * ((100vw - 375px) / (1440px - 375px)), 2.875rem);
+  --text-74\.4333px: clamp(3.0239rem, 3.0239rem + (4.6521rem - 3.0239rem) * ((100vw - 375px) / (1440px - 375px)), 4.6521rem);
+  --text-75\.0968px: clamp(3.0508rem, 3.0508rem + (4.6936rem - 3.0508rem) * ((100vw - 375px) / (1440px - 375px)), 4.6936rem);
+
+  /* Keyframes — registered in @theme so Tailwind v4 generates matching
+     animate-* utilities for the arbitrary-value classes already used
+     in components (animate-[fade-in_...], animate-[slide-in-right_...]). */
+  --animate-fade-in: fade-in 0.3s ease-out;
+  --animate-slide-in-right: slide-in-right 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-marquee: marquee 28s linear infinite;
+  --animate-float-soft: float-soft 6s ease-in-out infinite;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-in-right {
+    from {
+      opacity: 0;
+      transform: translateX(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* NOTE: kept at -33.3333% (not the Lovable source's -50%) — this project's
+     marquee content is duplicated 3x for a seamless loop, not 2x. Changing
+     the offset without also changing HeroMarquee.jsx's duplication count
+     would visibly jump at the loop point. Confirm against HeroMarquee.jsx
+     when that component is built. */
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-33.3333%);
+    }
+  }
+
+  @keyframes float-soft {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  @keyframes sheen-sweep {
+    from {
+      transform: translateX(-120%) skewX(-12deg);
+    }
+    to {
+      transform: translateX(220%) skewX(-12deg);
+    }
+  }
+}
+
+/* Brand gradient utility — used directly as a class in Navbar.jsx's scroll
+   progress bar. Kept as the simple 2-stop version already wired up there
+   (the Lovable source's diagonal 135deg version is better suited to large
+   surfaces, not a thin progress bar — see .panel-gradient below instead). */
+.brand-gradient {
+  background: linear-gradient(90deg, var(--color-brand), var(--color-brand-hover));
+}
+
+/* Subtle noise texture — CONFIRMED, real feTurbulence grain from the
+   Lovable source (replaces the placeholder dot pattern). Kept as a plain
+   background-image (no position/::before wrapper) since Footer.jsx already
+   applies this class directly to an absolutely-positioned overlay span. */
+.grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+/* Hero section background — CONFIRMED from the Lovable source. */
+.hero-gradient {
+  background-image:
+    radial-gradient(
+      120% 80% at 88% 0%,
+      color-mix(in oklab, var(--color-brand-light) 55%, transparent) 0%,
+      transparent 62%
+    ),
+    radial-gradient(
+      90% 70% at 0% 100%,
+      color-mix(in oklab, var(--color-gold-soft) 70%, transparent) 0%,
+      transparent 60%
+    ),
+    linear-gradient(168deg, white 0%, var(--color-surface) 46%, color-mix(in oklab, var(--color-brand-light) 34%, white) 100%);
+}
+
+/* Frosted-glass card surface — CONFIRMED from the Lovable source. */
+.glass-card {
+  background-color: color-mix(in oklab, white 82%, transparent);
+  backdrop-filter: blur(14px) saturate(130%);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+  border: 1px solid color-mix(in oklab, white 60%, var(--color-line));
+}
+
+/* Card hover lift — CONFIRMED from the Lovable source (was a smaller
+   3px placeholder lift with no shadow change; real version lifts 6px
+   and brings in the brand-tinted float shadow). */
+.lift-hover {
+  transition:
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 320ms ease;
+}
+.lift-hover:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-float);
+}
+
+/* Brand-colored glow lift — new, from the Lovable source. For buttons/CTAs
+   that want a colored glow on hover rather than the neutral float shadow. */
+.glow-hover {
+  transition:
+    transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 260ms ease;
+}
+.glow-hover:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 12px 26px -12px color-mix(in oklab, var(--color-brand) 65%, transparent),
+    0 0 0 4px color-mix(in oklab, var(--color-brand) 12%, transparent);
+}
+.glow-hover:active {
+  transform: translateY(0);
+}
+
+/* Diagonal light sweep on hover — new, from the Lovable source. For cards
+   and image frames. */
+.sheen-hover {
+  position: relative;
+  overflow: hidden;
+}
+.sheen-hover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in oklab, white 55%, transparent) 50%,
+    transparent 100%
+  );
+  transform: translateX(-120%) skewX(-12deg);
+  pointer-events: none;
+  opacity: 0;
+}
+.sheen-hover:hover::after {
+  opacity: 1;
+  animation: sheen-sweep 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Bordered surface that glows brand-tinted on hover — new, from the
+   Lovable source. */
+.ring-glow-hover {
+  transition:
+    box-shadow 320ms ease,
+    border-color 320ms ease;
+}
+.ring-glow-hover:hover {
+  border-color: color-mix(in oklab, var(--color-brand) 45%, transparent);
+  box-shadow:
+    0 22px 48px -26px color-mix(in oklab, var(--color-brand) 55%, transparent),
+    0 0 0 1px color-mix(in oklab, var(--color-brand) 18%, transparent);
+}
+
+/* Editorial hairline divider with a gold centre accent — new, from the
+   Lovable source. */
+.hairline {
+  height: 1px;
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in oklab, var(--color-gold) 55%, transparent) 50%,
+    transparent 100%
+  );
+}
+
+/* Premium card surface: layered gradient wash + gold hairline top edge
+   that appears on hover/focus — new, from the Lovable source. */
+.card-premium {
+  position: relative;
+  background-image:
+    radial-gradient(
+      120% 90% at 0% 0%,
+      color-mix(in oklab, var(--color-brand-light) 55%, white) 0%,
+      transparent 62%
+    ),
+    radial-gradient(
+      120% 100% at 100% 100%,
+      color-mix(in oklab, var(--color-gold-soft) 80%, white) 0%,
+      transparent 58%
+    ),
+    linear-gradient(168deg, white 0%, color-mix(in oklab, var(--color-surface) 70%, white) 100%);
+}
+.card-premium::before {
+  content: "";
+  position: absolute;
+  inset-inline: 12%;
+  top: 0;
+  height: 1px;
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in oklab, var(--color-gold) 70%, transparent) 50%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 300ms ease;
+  pointer-events: none;
+}
+.card-premium:hover::before,
+.card-premium:focus-visible::before {
+  opacity: 1;
+}
+
+/* Deep editorial gradient for media frames and dark panels — new, from
+   the Lovable source. */
+.panel-gradient {
+  background-image: linear-gradient(
+    150deg,
+    color-mix(in oklab, var(--color-brand) 92%, black) 0%,
+    var(--color-brand) 45%,
+    color-mix(in oklab, var(--color-brand) 72%, var(--color-gold)) 100%
+  );
+}
+
+/* Soft alternating-section background wash — new, from the Lovable source. */
+.surface-gradient {
+  background-image: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--color-surface) 100%, transparent) 0%,
+    color-mix(in oklab, var(--color-brand-light) 40%, white) 100%
+  );
+}
+
+/* Gold gradient text fill — new, from the Lovable source. */
+.gold-text-gradient {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-gold) 0%,
+    color-mix(in oklab, var(--color-gold) 55%, white) 55%,
+    var(--color-gold) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Gentle idle bob — new, from the Lovable source. Pairs with
+   --animate-float-soft above. */
+.float-soft {
+  animation: var(--animate-float-soft);
+}
+
+/* Thin brand progress bar tied to page scroll — new, from the Lovable
+   source. Sets the transform origin so a scaleX(...) progress fill grows
+   from the left edge. */
+.scroll-progress {
+  transform-origin: 0 50%;
+}
+
+/* Mirrors hero imagery on mobile so the subject faces the hero copy —
+   new, from the Lovable source. */
+.hero-flip-mobile {
+  @media (max-width: 767px) {
+    transform: scaleX(-1);
+  }
+}
+
+/* Fade masks for edge-to-edge scrolling strips — new, from the Lovable
+   source. */
+.edge-fade-x {
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black 6%,
+    black 94%,
+    transparent 100%
+  );
+}
+
+/* Marquee strip helpers — needed by HeroMarquee.jsx. Runs the
+   --animate-marquee keyframe continuously, pauses on hover, and
+   hides the native horizontal scrollbar during manual drag/swipe. */
+.marquee-track {
+  animation: var(--animate-marquee);
+}
+.marquee-pause:hover .marquee-track,
+.marquee-pause:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+  .float-soft {
+    animation: none;
+  }
+}
