@@ -1,10 +1,10 @@
 import heroWoman from "../assets/images/hero/slide-woman.jpg";
 import heroMan from "../assets/images/hero/slide-man.jpg";
-import heroChild from "../assets/images/hero/slide-child.jpg";
-import heroSenior from "../assets/images/hero/slide-senior.jpg";
-import heroFamily from "../assets/images/hero/slide-family.jpg";
+import heroChild from "../assets/images/hero/slide-child.png";
+import heroSenior from "../assets/images/hero/slide-senior.png";
+import heroFamily from "../assets/images/hero/slide-family.png";
 
-const eyebrow = "For Healthier Smiles, Brighter Tomorrows";
+const eyebrow = "For Healthier Smiles";
 
 export const heroSlides = [
   {
@@ -37,7 +37,7 @@ export const heroSlides = [
     desktopObjectClass: "md:object-[50%_16%]",
     eyebrow,
     titleTop: "Gentle Care that Builds",
-    titleAccent: ["Happy Kids", "Dentistry"],
+    titleAccent: ["Happy Children", "Dentistry"],
     description:
       "Playful, painless visits designed to keep little teeth healthy and dental fear far away.",
     image: heroChild,

@@ -65,10 +65,27 @@ export function Hero() {
       mounted ? "opacity-100 translate-y-0" : "motion-safe:opacity-0 motion-safe:translate-y-4",
     );
 
+  // Feather only the image's LEFT edge (where it meets the text column) with a
+  // CSS mask, instead of relying on a perfectly-aligned hard crop. A soft fade
+  // has no single pixel row where a 1px misalignment can show up as a seam —
+  // and unlike restructuring the layout, this doesn't touch the image's width
+  // or height at all, so its on-screen size stays exactly as it was.
+  // Top/bottom/right edges are left fully solid.
+  //
+  // --img-shift-x: mobile-only rightward pan of the photo INSIDE its existing
+  // overflow-hidden frame (the frame's own size/position never changes, so
+  // there's no overflow or reflow risk). Set via Tailwind arbitrary-property
+  // classes below and reset to 0 at md:, so tablet/desktop are untouched.
+  const imageMaskStyle = {
+    transform: `translate3d(var(--img-shift-x, 0px), ${offset * 0.35}px, 0) scale(1.02)`,
+    WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 14%, black 100%)",
+    maskImage: "linear-gradient(to right, transparent 0%, black 14%, black 100%)",
+  };
+
   const slideImages = (
     <div
-      className="absolute inset-0 will-change-transform"
-      style={{ transform: `translate3d(0, ${offset * 0.35}px, 0) scale(1.02)` }}
+      className="absolute inset-0 will-change-transform [--img-shift-x:40px] sm:[--img-shift-x:28px] md:[--img-shift-x:0px]"
+      style={imageMaskStyle}
     >
       {heroSlides.map((s, i) => (
         <img
@@ -110,7 +127,7 @@ export function Hero() {
   return (
     <section ref={sectionRef} className="relative hero-gradient grain pb-0 md:pb-24 lg:pb-28" aria-label="Hero">
       <div className="relative mx-auto grid max-w-[1640px] grid-cols-1 items-center gap-0 px-0 pt-0 md:min-h-[640px] md:grid-cols-[minmax(0,0.4fr)_minmax(0,0.6fr)] md:px-8 md:pt-8 lg:min-h-[780px] lg:grid-cols-[minmax(0,0.42fr)_minmax(0,0.58fr)] lg:gap-10 lg:px-10 lg:pt-10">
-        {/* Image column — full-bleed right half on every breakpoint */}
+        {/* Image column — full-bleed right half on every breakpoint (original sizing, unchanged) */}
         <div className="absolute inset-y-0 right-0 w-[72%] sm:w-[64%] md:left-auto md:w-[58%] md:px-0 lg:w-[58%] xl:w-[60%]">
           <div
             className="relative h-full overflow-hidden md:rounded-none md:shadow-none"
@@ -162,21 +179,21 @@ export function Hero() {
         </div>
 
         {/* Copy — overlays the image fade on mobile */}
-        <div className="relative z-10 w-[64%] py-7 pl-5 pr-2 sm:w-[58%] md:w-auto md:px-0 md:py-10 md:pb-24 lg:pb-32 lg:pl-4 xl:pl-10">
+        <div className="relative z-10 w-[64%] pt-14 md:pt-0 py-7 pl-5 pr-2 sm:w-[58%] md:w-auto md:px-0 md:py-10 md:pb-24 lg:pb-32 lg:pl-4 xl:pl-10">
           <span
             className={cn(
-              "inline-flex items-center gap-1.5 rounded-full border border-line bg-white/90 px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.06em] text-brand shadow-card backdrop-blur-sm sm:text-[11px] md:gap-2 md:px-4 md:py-2",
+              "inline-flex items-center gap-1.5 rounded-full border border-line bg-white/90 px-6 py-2 mb-4 md:mb-0 text-[9px] font-semibold uppercase tracking-[0.06em] text-brand shadow-card backdrop-blur-sm sm:text-[11px] md:gap-2 md:px-4 md:py-2",
               reveal(0),
             )}
           >
-            <Heart className="h-3 w-3 fill-gold text-gold md:h-3.5 md:w-3.5" strokeWidth={1.5} aria-hidden />
+            <Heart className="h-4 w-4  fill-gold text-gold md:h-4.5 md:w-4.5" strokeWidth={1.5} aria-hidden />
             {slide.eyebrow}
           </span>
 
           <h1 className="mt-4 min-h-[104px] font-display text-brand sm:min-h-[136px] md:mt-6 md:min-h-[212px] lg:mt-8 lg:min-h-[300px]">
             <span
               className={cn(
-                "block text-[15px] font-bold leading-[1.2] sm:text-[20px] md:text-[30px] lg:text-[40px]",
+                "block py-1 text-[15px] font-bold leading-[1.2] sm:text-[20px] md:text-[30px] lg:text-[40px]",
                 reveal(1),
               )}
             >
@@ -186,7 +203,7 @@ export function Hero() {
               <span
                 key={line}
                 className={cn(
-                  "block text-[26px] font-bold uppercase leading-[1] tracking-[-0.01em] sm:text-[36px] md:text-[54px] lg:text-[72px] lg:leading-[0.9] xl:text-[78px]",
+                  "block py-1 text-[26px] font-bold uppercase leading-[1] tracking-[-0.01em] sm:text-[36px] md:text-[54px] lg:text-[72px] lg:leading-[0.9] xl:text-[78px]",
                   i === slide.titleAccent.length - 1 ? "text-gold" : "text-brand",
                   reveal(2 + i),
                 )}
@@ -196,7 +213,7 @@ export function Hero() {
             ))}
           </h1>
 
-          <span className="mt-6 hidden h-[3px] w-14 rounded-full bg-gold lg:block" />
+          <span className="mt-6 block h-[2px] mb-6 w-14 rounded-full bg-gold" />
 
           <p
             className={cn(
@@ -207,7 +224,7 @@ export function Hero() {
             {slide.description}
           </p>
 
-          <div className={cn("mt-5 md:mt-8", reveal(5))}>
+          <div className={cn("mt-3 md:mt-8", reveal(5))}>
             <HeroCTA />
           </div>
 

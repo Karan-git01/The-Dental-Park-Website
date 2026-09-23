@@ -80,6 +80,7 @@ export function Navbar() {
       />
 
       <nav
+        data-site-header
         aria-label="Main"
         onMouseLeave={() => setOpenMenu(null)}
         className={cn(
@@ -203,13 +204,16 @@ export function Navbar() {
           </div>
         </div>
 
+        {/* Mobile-only cluster: phone icon button enlarged from h-11/w-11
+            (44px) with a h-4/w-4 (16px) icon to a h-8/w-8 (32px) icon so it
+            reads clearly at nav size, matching the MobileMenu trigger. */}
         <div className="ml-auto flex items-center gap-2 xl:hidden">
           <a
             href={contactInfo.phoneHref}
             aria-label={`Call ${contactInfo.phone}`}
             className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-black/10 text-brand"
           >
-            <Phone className="h-4 w-4" strokeWidth={2} aria-hidden />
+            <Phone className="h-8 w-8" strokeWidth={2} aria-hidden />
           </a>
           <a
             href="/contact"
