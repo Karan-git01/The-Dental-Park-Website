@@ -1,90 +1,109 @@
 // src/components/sections/FAQSection.jsx
 import { useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Minus, Plus } from "lucide-react";
 import { faqs } from "../../data/faqs";
 import { Reveal } from "../shared/Reveal";
 import { cn } from "../../lib/utils";
 
+const EASE = [0.16, 1, 0.3, 1]; // ease-out-expo — used across the accordion's open/close motion
+
 export function FAQSection() {
   const [open, setOpen] = useState(0);
+  const prefersReducedMotion = useReducedMotion();
 
   return (
-    <section id="faq" className="bg-surface py-16 lg:py-24" aria-labelledby="faq-heading">
+    <section id="faq" className="bg-white py-16 lg:py-28" aria-labelledby="faq-heading">
       <div className="mx-auto max-w-[1180px] px-5 lg:px-10">
-        <Reveal className="mx-auto max-w-[680px] text-center">
-          <span className="text-[13px] font-semibold uppercase tracking-[0.12em] text-brand">FAQ</span>
-          <h2
-            id="faq-heading"
-            className="mt-3 font-display text-[28px] font-bold leading-[1.2] text-ink sm:text-[36px] lg:text-[42px]"
-          >
-            Frequently Asked Questions
-          </h2>
-          <p className="mt-4 text-[15px] leading-[1.75] text-body">
-            Everything you need to know about our services, appointments and treatments.
-          </p>
-        </Reveal>
-        <div className="mt-12 grid gap-4 lg:grid-cols-2">
-          {faqs.map((faq, i) => {
-            const Icon = faq.icon;
-            const isOpen = open === i;
-            return (
-              <Reveal
-                key={faq.question}
-                delay={(i % 2) * 90}
-                className={cn(
-                  "rounded-2xl border bg-white transition-[border-color,box-shadow] duration-300",
-                  isOpen ? "border-brand/40 shadow-card" : "border-line hover:border-brand/25",
-                )}
-              >
-                <button
-                  type="button"
-                  aria-expanded={isOpen}
-                  onClick={() => setOpen(isOpen ? null : i)}
-                  className="group flex w-full items-center gap-4 p-5 text-left"
+        <div className="lg:grid lg:grid-cols-[360px_1fr] lg:gap-16">
+          {/* Left: sticky intro column */}
+          <Reveal className="lg:sticky lg:top-28 lg:self-start">
+            <h2
+              id="faq-heading"
+              className="font-display text-[32px] font-bold leading-[1.12] tracking-[-0.01em] text-ink sm:text-[40px] lg:text-[44px]"
+            >
+              Frequently asked questions
+            </h2>
+            <p className="mt-5 max-w-[36ch] text-[15px] leading-[1.75] text-body">
+              Everything you need to know about our services, appointments and treatments.
+            </p>
+            <div className="mt-8 hidden h-px w-16 bg-brand/30 lg:block" />
+          </Reveal>
+
+          {/* Right: accordion list */}
+          <div className="mt-12 lg:mt-0">
+            {faqs.map((faq, i) => {
+              const Icon = faq.icon;
+              const isOpen = open === i;
+              return (
+                <Reveal
+                  key={faq.question}
+                  delay={i * 60}
+                  className={cn("border-line border-b", i === 0 && "border-t")}
                 >
-                  <span
-                    className={cn(
-                      "grid h-11 w-11 shrink-0 place-items-center rounded-full bg-brand-light transition-transform duration-300",
-                      isOpen ? "scale-105" : "group-hover:scale-105",
-                    )}
+                  <button
+                    type="button"
+                    aria-expanded={isOpen}
+                    onClick={() => setOpen(isOpen ? null : i)}
+                    className="group flex w-full items-start gap-4 py-7 text-left"
                   >
-                    <Icon className="h-5 w-5 text-brand" strokeWidth={1.7} aria-hidden />
-                  </span>
-                  <span className="min-w-0 flex-1 text-[15.5px] font-medium text-ink transition-colors group-hover:text-brand">
-                    {faq.question}
-                  </span>
-                  <span className="relative grid h-8 w-8 shrink-0 place-items-center border-l border-line pl-3 text-brand">
-                    <Plus
+                    <Icon
                       className={cn(
-                        "absolute h-4 w-4 transition-all duration-300",
-                        isOpen ? "rotate-90 opacity-0" : "rotate-0 opacity-100",
+                        "mt-0.5 h-5 w-5 shrink-0 transition-colors duration-300",
+                        isOpen ? "text-brand" : "text-brand/60 group-hover:text-brand",
                       )}
-                      strokeWidth={2}
+                      strokeWidth={1.6}
                       aria-hidden
                     />
-                    <Minus
+                    <span
                       className={cn(
-                        "absolute h-4 w-4 transition-all duration-300",
-                        isOpen ? "rotate-0 opacity-100" : "-rotate-90 opacity-0",
+                        "min-w-0 flex-1 text-[17px] leading-snug transition-[color,font-weight] duration-300 sm:text-[19px]",
+                        isOpen ? "font-semibold text-ink" : "font-medium text-ink/80 group-hover:text-ink",
                       )}
-                      strokeWidth={2}
-                      aria-hidden
-                    />
-                  </span>
-                </button>
-                <div
-                  className={cn(
-                    "grid transition-all duration-400 ease-out",
-                    isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
-                  )}
-                >
-                  <div className="overflow-hidden">
-                    <p className="px-5 pb-5 pl-[76px] text-[14.5px] leading-[1.75] text-body">{faq.answer}</p>
-                  </div>
-                </div>
-              </Reveal>
-            );
-          })}
+                    >
+                      {faq.question}
+                    </span>
+                    <span className="relative mt-1.5 grid h-6 w-6 shrink-0 place-items-center text-brand">
+                      <motion.span
+                        className="absolute inset-0 grid place-items-center"
+                        animate={{ rotate: isOpen ? 90 : 0, opacity: isOpen ? 0 : 1 }}
+                        transition={{ duration: prefersReducedMotion ? 0 : 0.3, ease: EASE }}
+                      >
+                        <Plus className="h-6 w-6" strokeWidth={2} aria-hidden />
+                      </motion.span>
+                      <motion.span
+                        className="absolute inset-0 grid place-items-center"
+                        animate={{ rotate: isOpen ? 0 : -90, opacity: isOpen ? 1 : 0 }}
+                        transition={{ duration: prefersReducedMotion ? 0 : 0.3, ease: EASE }}
+                      >
+                        <Minus className="h-6 w-6" strokeWidth={2} aria-hidden />
+                      </motion.span>
+                    </span>
+                  </button>
+
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        key="content"
+                        initial={prefersReducedMotion ? { opacity: 0 } : { height: 0, opacity: 0 }}
+                        animate={prefersReducedMotion ? { opacity: 1 } : { height: "auto", opacity: 1 }}
+                        exit={prefersReducedMotion ? { opacity: 0 } : { height: 0, opacity: 0 }}
+                        transition={{
+                          height: { duration: prefersReducedMotion ? 0 : 0.45, ease: EASE },
+                          opacity: { duration: prefersReducedMotion ? 0.15 : 0.35, ease: "easeOut" },
+                        }}
+                        className="overflow-hidden"
+                      >
+                        <p className="max-w-[62ch] pb-7 pl-9 text-[14.5px] leading-[1.75] text-body">
+                          {faq.answer}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </Reveal>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>

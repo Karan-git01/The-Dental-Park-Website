@@ -37,50 +37,52 @@ export function Footer() {
     <footer className="relative isolate overflow-hidden bg-ink text-white">
       {/* Layered premium background — subtle brand glow + grain */}
       <span
-        className="pointer-events-none absolute -left-40 top-0 -z-10 h-[420px] w-[420px] rounded-full bg-brand/25 blur-[130px]"
+        className="pointer-events-none absolute -left-40 top-0 -z-10 h-[420px] w-[420px] rounded-full bg-brand/20 blur-[140px]"
         aria-hidden
       />
       <span
-        className="pointer-events-none absolute -right-32 bottom-0 -z-10 h-[380px] w-[380px] rounded-full bg-gold/15 blur-[130px]"
+        className="pointer-events-none absolute -right-32 bottom-0 -z-10 h-[380px] w-[380px] rounded-full bg-gold/10 blur-[140px]"
         aria-hidden
       />
       <span className="pointer-events-none absolute inset-0 -z-10 grain opacity-60" aria-hidden />
 
       {/* CTA band */}
       <div className="border-b border-white/10">
-        <div className="mx-auto flex max-w-[1280px] flex-col gap-6 px-5 py-10 lg:flex-row lg:items-center lg:justify-between lg:px-10 lg:py-12">
+        <div className="mx-auto flex max-w-[1280px] flex-col gap-7 px-5 py-11 lg:flex-row lg:items-center lg:justify-between lg:px-10 lg:py-14">
           <div>
-            <h2 className="font-display text-[26px] font-semibold leading-tight text-white sm:text-[32px]">
+            <h2 className="font-display text-[28px] font-semibold leading-[1.1] tracking-[-0.01em] text-white sm:text-[34px]">
               Ready for a smile you&rsquo;ll love?
             </h2>
-            <p className="mt-2 max-w-[520px] text-[14.5px] leading-[1.7] text-white/70">
+            <p className="mt-2.5 max-w-[520px] text-[14.5px] leading-[1.7] text-white/70">
               Same-day appointments, transparent pricing and a specialist-led plan built around you.
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
             <Link
               to="/contact"
-              className="group inline-flex h-[54px] items-center gap-2.5 rounded-xl bg-brand px-7 text-[15.5px] font-semibold text-white transition-all duration-300 hover:bg-brand-hover hover:shadow-float"
+              className="group relative inline-flex h-11 items-center gap-2 overflow-hidden rounded-xl bg-brand px-6 text-[14.5px] font-semibold text-white transition-colors duration-300 hover:bg-brand-hover"
             >
-              Book an Appointment
-              <ArrowRight
-                className="h-4.5 w-4.5 transition-transform duration-300 group-hover:translate-x-1"
-                strokeWidth={2}
-                aria-hidden
-              />
+              <span className="relative z-10 inline-flex items-center gap-2">
+                Book an Appointment
+                <ArrowRight
+                  className="h-6 w-6 transition-transform duration-300 group-hover:translate-x-1"
+                  strokeWidth={2}
+                  aria-hidden
+                />
+              </span>
             </Link>
             <a
               href={contactInfo.phoneHref}
-              className="inline-flex h-[54px] items-center gap-2.5 rounded-xl border border-white/25 px-7 text-[15.5px] font-semibold text-white transition-all duration-300 hover:border-gold hover:text-gold"
+              className="group inline-flex h-11 items-center gap-2 rounded-xl border border-white/25 px-6 text-[14.5px] font-semibold text-white transition-colors duration-300 hover:border-gold hover:text-gold"
             >
-              <Phone className="h-4.5 w-4.5" strokeWidth={1.9} aria-hidden />
+              <Phone className="h-6 w-6" strokeWidth={1.9} aria-hidden />
               {contactInfo.phone}
             </a>
           </div>
         </div>
       </div>
 
-      <div className="mx-auto max-w-[1280px] px-5 py-14 lg:px-10 lg:py-18">
+      <div className="mx-auto max-w-[1280px] px-5 py-16 lg:px-10 lg:py-20">
         <div className="flex items-center gap-3">
           <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-brand/20 ring-1 ring-gold/25">
             <ShieldCheck className="h-6 w-6 text-gold" strokeWidth={1.6} aria-hidden />
@@ -96,7 +98,7 @@ export function Footer() {
           </span>
         </div>
 
-        <div className="mt-12 grid gap-10 md:grid-cols-2 lg:grid-cols-[1.15fr_repeat(4,minmax(0,1fr))] lg:gap-8">
+        <div className="mt-14 grid gap-12 md:grid-cols-2 lg:grid-cols-[1.15fr_repeat(4,minmax(0,1fr))] lg:gap-10">
           <div>
             <h2 className="font-display text-[20px] font-semibold text-white">Connect With Us</h2>
             <span className="mt-2 block h-[3px] w-10 rounded-full bg-gold" />
@@ -111,15 +113,15 @@ export function Footer() {
               </span>
             </a>
 
-            <ul className="mt-6 flex flex-wrap gap-3">
+            <ul className="mt-6 flex flex-wrap gap-2.5">
               {socials.map(({ icon: Icon, label, href }) => (
                 <li key={label}>
                   <a
                     href={href}
                     aria-label={label}
-                    className="grid h-10 w-10 place-items-center rounded-xl border border-white/20 text-white/85 transition-all duration-300 hover:-translate-y-1 hover:border-gold hover:bg-gold/10 hover:text-gold"
+                    className="grid h-9 w-9 place-items-center rounded-full bg-white/5 text-white/80 transition-all duration-300 hover:bg-gold hover:text-ink"
                   >
-                    <Icon className="h-[18px] w-[18px]" strokeWidth={1.7} aria-hidden />
+                    <Icon className="h-4 w-4" strokeWidth={1.7} aria-hidden />
                   </a>
                 </li>
               ))}
@@ -158,12 +160,12 @@ export function Footer() {
               <ul className="mt-6 space-y-3.5">
                 {column.links.map((link) => (
                   <li key={`${column.title}-${link.label}`}>
-                    <Link
-                      to={link.to}
-                      className="group inline-flex items-center gap-1.5 text-[14.5px] text-white/75 transition-colors duration-300 hover:text-gold"
-                    >
-                      <span className="h-px w-0 bg-gold transition-all duration-300 group-hover:w-3" aria-hidden />
-                      {link.label}
+                    <Link to={link.to} className="group relative inline-block text-[14.5px] text-white/75">
+                      <span className="transition-colors duration-300 group-hover:text-white">{link.label}</span>
+                      <span
+                        className="absolute bottom-[-2px] left-0 h-px w-full origin-left scale-x-0 bg-gold transition-transform duration-300 ease-out group-hover:scale-x-100"
+                        aria-hidden
+                      />
                     </Link>
                   </li>
                 ))}
@@ -173,7 +175,7 @@ export function Footer() {
         </div>
 
         {/* Map strip */}
-        <div className="mt-14 grid gap-6 lg:grid-cols-[1fr_1.4fr] lg:items-center">
+        <div className="mt-16 grid gap-6 lg:grid-cols-[1fr_1.4fr] lg:items-center">
           <div>
             <h2 className="font-display text-[20px] font-semibold text-white">Visit Us</h2>
             <span className="mt-2 block h-[3px] w-10 rounded-full bg-gold" />
@@ -204,7 +206,14 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 grid gap-6 border-t border-white/10 pt-8 md:grid-cols-2">
+        {/* Ghost wordmark — closing signature */}
+        <div className="mt-16 select-none overflow-hidden" aria-hidden>
+          <span className="block whitespace-nowrap font-display text-[11.5vw] font-bold uppercase leading-none tracking-tight text-white/[0.04] sm:text-[10vw] lg:text-[130px]">
+            Dental Park
+          </span>
+        </div>
+
+        <div className="mt-8 grid gap-6 border-t border-white/10 pt-8 md:grid-cols-2">
           <div className="flex items-start gap-3">
             <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-white/20">
               <ShieldCheck className="h-[18px] w-[18px] text-gold" strokeWidth={1.7} aria-hidden />

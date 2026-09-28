@@ -1,5 +1,6 @@
 // src/components/sections/AppointmentForm.jsx
 import { useEffect, useMemo, useRef, useState } from "react";
+import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import { CalendarDays, Check, ChevronDown, Loader2, Phone, Smile, User } from "lucide-react";
 import { z } from "zod";
 import { treatmentLinks } from "../../data/navigation";
@@ -20,9 +21,18 @@ const schema = z.object({
 });
 
 const fieldClass =
-  "h-[62px] w-full rounded-xl border bg-white pl-12 pr-4 text-[15px] text-ink outline-none transition-all duration-300 placeholder:text-muted-ink focus:-translate-y-0.5 focus:shadow-card focus:ring-4";
+  "h-16 w-full rounded-xl border bg-white pl-14 pr-4 text-[15px] text-ink outline-none transition-colors duration-200 placeholder:text-muted-ink focus:ring-4";
 const okClass = "border-line hover:border-brand/40 focus:border-brand focus:ring-brand/15";
 const badClass = "border-destructive/70 focus:border-destructive focus:ring-destructive/15";
+
+const panelVariants = {
+  hidden: { opacity: 0, y: 22 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+  },
+};
 
 export function AppointmentForm() {
   const [values, setValues] = useState({ name: "", phone: "", treatment: "", date: "" });
@@ -93,185 +103,217 @@ export function AppointmentForm() {
       </p>
     ) : null;
 
+  const FieldLabel = ({ htmlFor, children }) => (
+    <label htmlFor={htmlFor} className="mb-1.5 block pl-1 text-[12.5px] font-medium text-muted-ink">
+      {children}
+    </label>
+  );
+
   return (
-    <section id="appointment" className="bg-white py-14 lg:py-20" aria-labelledby="appointment-heading">
-      <div className="mx-auto max-w-[1180px] px-5 lg:px-8">
-        <form
-          onSubmit={submit}
-          noValidate
-          className="card-premium rounded-[24px] border border-line px-5 py-8 sm:px-8 lg:px-12 lg:py-12"
-        >
+    <MotionConfig reducedMotion="user">
+      <section id="appointment" className="bg-brand py-14 lg:py-20" aria-labelledby="appointment-heading">
+        <div className="mx-auto max-w-[1180px] px-5 lg:px-8">
           <h2
             id="appointment-heading"
-            className="font-display text-[22px] font-bold leading-tight text-ink sm:text-[30px] lg:text-[36px]"
+            className="font-display text-[22px] font-bold leading-tight text-white sm:text-[30px] lg:text-[36px]"
           >
             Book an Appointment at The Dental Park Near You
           </h2>
-          <p className="mt-3 max-w-[620px] text-[14.5px] leading-[1.7] text-body">
+          <p className="mt-6 max-w-[620px] text-[14.5px] leading-[1.7] text-white/75">
             Takes under a minute. We&rsquo;ll call you back to confirm your slot — no payment needed to book.
           </p>
 
-          <div className="mt-7 grid gap-4 sm:gap-5 lg:grid-cols-3">
-            <div>
-              <div className="relative">
-                <User
-                  className="pointer-events-none absolute left-4 top-[31px] h-5 w-5 -translate-y-1/2 text-brand"
-                  strokeWidth={1.6}
-                  aria-hidden
-                />
-                <input
-                  ref={nameRef}
-                  className={cn(fieldClass, err("name") ? badClass : okClass)}
-                  placeholder="Full Name"
-                  aria-label="Full Name"
-                  aria-invalid={Boolean(err("name"))}
-                  autoComplete="name"
-                  maxLength={100}
-                  value={values.name}
-                  onChange={set("name")}
-                />
-              </div>
-              <FieldError field="name" />
-            </div>
+          <motion.div
+            className="mt-10 rounded-[28px] border border-black/5 bg-white p-5 shadow-2xl shadow-black/20 sm:p-7 lg:p-9"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            variants={panelVariants}
+          >
+            <form onSubmit={submit} noValidate>
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                <div>
+                  <FieldLabel htmlFor="appt-name">Full Name</FieldLabel>
+                  <div className="relative">
+                    <User
+                      className="pointer-events-none absolute left-4 top-1/2 h-7 w-7 -translate-y-1/2 text-brand"
+                      strokeWidth={1.6}
+                      aria-hidden
+                    />
+                    <input
+                      id="appt-name"
+                      ref={nameRef}
+                      className={cn(fieldClass, err("name") ? badClass : okClass)}
+                      placeholder="Full Name"
+                      aria-invalid={Boolean(err("name"))}
+                      autoComplete="name"
+                      maxLength={100}
+                      value={values.name}
+                      onChange={set("name")}
+                    />
+                  </div>
+                  <FieldError field="name" />
+                </div>
 
-            <div>
-              <div className="relative">
-                <Phone
-                  className="pointer-events-none absolute left-4 top-[31px] h-5 w-5 -translate-y-1/2 text-brand"
-                  strokeWidth={1.6}
-                  aria-hidden
-                />
-                <input
-                  ref={phoneRef}
-                  className={cn(fieldClass, err("phone") ? badClass : okClass)}
-                  placeholder="Phone Number"
-                  aria-label="Phone Number"
-                  aria-invalid={Boolean(err("phone"))}
-                  inputMode="tel"
-                  autoComplete="tel"
-                  maxLength={20}
-                  value={values.phone}
-                  onChange={set("phone")}
-                />
-              </div>
-              <FieldError field="phone" />
-            </div>
+                <div>
+                  <FieldLabel htmlFor="appt-phone">Phone Number</FieldLabel>
+                  <div className="relative">
+                    <Phone
+                      className="pointer-events-none absolute left-4 top-1/2 h-7 w-7 -translate-y-1/2 text-brand"
+                      strokeWidth={1.6}
+                      aria-hidden
+                    />
+                    <input
+                      id="appt-phone"
+                      ref={phoneRef}
+                      className={cn(fieldClass, err("phone") ? badClass : okClass)}
+                      placeholder="Phone Number"
+                      aria-invalid={Boolean(err("phone"))}
+                      inputMode="tel"
+                      autoComplete="tel"
+                      maxLength={20}
+                      value={values.phone}
+                      onChange={set("phone")}
+                    />
+                  </div>
+                  <FieldError field="phone" />
+                </div>
 
-            <div>
-              <div className="relative">
-                <Smile
-                  className="pointer-events-none absolute left-4 top-[31px] h-5 w-5 -translate-y-1/2 text-brand"
-                  strokeWidth={1.6}
-                  aria-hidden
-                />
-                <ChevronDown
-                  className="pointer-events-none absolute right-4 top-[31px] h-5 w-5 -translate-y-1/2 text-ink"
-                  strokeWidth={1.8}
-                  aria-hidden
-                />
-                <select
-                  ref={treatmentRef}
-                  className={cn(
-                    fieldClass,
-                    err("treatment") ? badClass : okClass,
-                    "appearance-none pr-11",
-                    !values.treatment && "text-muted-ink",
-                    prefilled && "border-gold ring-4 ring-gold/25",
-                  )}
-                  aria-label="Treatment Interested In"
-                  aria-invalid={Boolean(err("treatment"))}
-                  value={values.treatment}
-                  onChange={set("treatment")}
+                <div>
+                  <FieldLabel htmlFor="appt-treatment">Treatment Interested In</FieldLabel>
+                  <div className="relative">
+                    <Smile
+                      className="pointer-events-none absolute left-4 top-1/2 h-7 w-7 -translate-y-1/2 text-brand"
+                      strokeWidth={1.6}
+                      aria-hidden
+                    />
+                    <ChevronDown
+                      className="pointer-events-none absolute right-4 top-1/2 h-7 w-7 -translate-y-1/2 text-ink"
+                      strokeWidth={1.8}
+                      aria-hidden
+                    />
+                    <select
+                      id="appt-treatment"
+                      ref={treatmentRef}
+                      className={cn(
+                        fieldClass,
+                        err("treatment") ? badClass : okClass,
+                        "appearance-none pr-11",
+                        !values.treatment && "text-muted-ink",
+                        prefilled && "border-gold ring-4 ring-gold/25",
+                      )}
+                      aria-invalid={Boolean(err("treatment"))}
+                      value={values.treatment}
+                      onChange={set("treatment")}
+                    >
+                      <option value="">Treatment Interested In</option>
+                      {treatmentLinks.map((t) => (
+                        <option key={t.href ?? t.label} value={t.label}>
+                          {t.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <FieldError field="treatment" />
+                </div>
+
+                <div>
+                  <FieldLabel htmlFor="appt-date">Preferred Date</FieldLabel>
+                  <div className="relative">
+                    <CalendarDays
+                      className="pointer-events-none absolute left-4 top-1/2 h-7 w-7 -translate-y-1/2 text-brand"
+                      strokeWidth={1.6}
+                      aria-hidden
+                    />
+                    <input
+                      id="appt-date"
+                      ref={dateRef}
+                      type="date"
+                      min={today}
+                      className={cn(fieldClass, err("date") ? badClass : okClass, !values.date && "text-muted-ink")}
+                      aria-invalid={Boolean(err("date"))}
+                      value={values.date}
+                      onChange={set("date")}
+                    />
+                  </div>
+                  <FieldError field="date" />
+                </div>
+              </div>
+
+              <div className="mt-6 flex flex-col gap-5 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
+                <label className="flex items-start gap-3 text-[14px] leading-snug text-muted-ink sm:items-center sm:text-[14.5px]">
+                  <input
+                    type="checkbox"
+                    checked={consent}
+                    onChange={(e) => {
+                      setConsent(e.target.checked);
+                      setErrors((prev) => (prev.consent ? { ...prev, consent: undefined } : prev));
+                    }}
+                    className={cn(
+                      "mt-0.5 h-5 w-5 shrink-0 cursor-pointer appearance-none rounded-[6px] border bg-white bg-center bg-no-repeat transition-colors duration-200 checked:border-gold checked:bg-gold sm:mt-0",
+                      err("consent") ? "border-destructive/70" : "border-line",
+                    )}
+                    style={{
+                      backgroundImage: consent
+                        ? "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23142019' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E\")"
+                        : undefined,
+                      backgroundSize: "14px 14px",
+                    }}
+                  />
+                  I agree to receive appointment confirmations and updates via call, SMS, or WhatsApp.
+                </label>
+
+                <motion.button
+                  type="submit"
+                  disabled={submitting}
+                  whileHover={submitting ? undefined : { y: -2 }}
+                  whileTap={submitting ? undefined : { scale: 0.98 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className="flex mt-2 mb-2 h-16 w-full shrink-0 items-center justify-center gap-2.5 rounded-xl bg-gold px-10 text-[16px] font-semibold text-ink shadow-md shadow-gold/20 transition-shadow duration-200 hover:shadow-lg hover:shadow-gold/30 disabled:cursor-wait disabled:opacity-80 sm:w-auto sm:min-w-[220px]"
                 >
-                  <option value="">Treatment Interested In</option>
-                  {treatmentLinks.map((t) => (
-                    <option key={t.href ?? t.label} value={t.label}>
-                      {t.label}
-                    </option>
-                  ))}
-                </select>
+                  {submitting ? (
+                    <>
+                      <Loader2 className="h-5 w-5 animate-spin" strokeWidth={2} aria-hidden />
+                      Booking...
+                    </>
+                  ) : done ? (
+                    <>
+                      <Check className="h-5 w-5" strokeWidth={2.5} aria-hidden />
+                      Booked
+                    </>
+                  ) : (
+                    "Book Now"
+                  )}
+                </motion.button>
               </div>
-              <FieldError field="treatment" />
-            </div>
+              <FieldError field="consent" />
 
-            <div>
-              <div className="relative">
-                <CalendarDays
-                  className="pointer-events-none absolute left-4 top-[31px] h-5 w-5 -translate-y-1/2 text-brand"
-                  strokeWidth={1.6}
-                  aria-hidden
-                />
-                <input
-                  ref={dateRef}
-                  type="date"
-                  min={today}
-                  className={cn(fieldClass, err("date") ? badClass : okClass, !values.date && "text-muted-ink")}
-                  aria-label="Preferred Appointment Date"
-                  aria-invalid={Boolean(err("date"))}
-                  value={values.date}
-                  onChange={set("date")}
-                />
-              </div>
-              <FieldError field="date" />
-            </div>
-
-            <button
-              type="submit"
-              disabled={submitting}
-              className="flex h-[62px] w-full items-center justify-center gap-2.5 rounded-xl bg-brand text-[17px] font-semibold text-white transition-all duration-300 glow-hover hover:bg-brand-hover disabled:cursor-wait disabled:opacity-80"
-            >
-              {submitting ? (
-                <>
-                  <Loader2 className="h-5 w-5 animate-spin" strokeWidth={2} aria-hidden />
-                  Booking...
-                </>
-              ) : done ? (
-                <>
-                  <Check className="h-5 w-5" strokeWidth={2.5} aria-hidden />
-                  Booked
-                </>
-              ) : (
-                "Book Now"
-              )}
-            </button>
-          </div>
-
-          <label className="mt-6 flex items-start gap-3 text-[14px] leading-snug text-ink sm:items-center sm:text-[15px]">
-            <input
-              type="checkbox"
-              checked={consent}
-              onChange={(e) => {
-                setConsent(e.target.checked);
-                setErrors((prev) => (prev.consent ? { ...prev, consent: undefined } : prev));
-              }}
-              className={cn(
-                "mt-0.5 h-5 w-5 shrink-0 cursor-pointer appearance-none rounded-[6px] border bg-white bg-center bg-no-repeat transition-colors checked:border-brand checked:bg-brand sm:mt-0",
-                err("consent") ? "border-destructive/70" : "border-line",
-              )}
-              style={{
-                backgroundImage: consent
-                  ? "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E\")"
-                  : undefined,
-                backgroundSize: "14px 14px",
-              }}
-            />
-            I agree to receive appointment confirmations and updates via call, SMS, or WhatsApp.
-          </label>
-          <FieldError field="consent" />
-
-          {done && (
-            <p
-              className="mt-4 flex items-center gap-2.5 rounded-xl border border-brand/25 bg-brand-light/60 px-4 py-3 text-[14.5px] font-medium text-brand motion-safe:animate-[fade-in_0.4s_ease-out]"
-              role="status"
-            >
-              <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-brand text-white">
-                <Check className="h-3.5 w-3.5" strokeWidth={3} aria-hidden />
-              </span>
-              Thanks! Our team will call you shortly to confirm your appointment.
-            </p>
-          )}
-        </form>
-      </div>
-    </section>
+              <AnimatePresence>
+                {done && (
+                  <motion.p
+                    initial={{ opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    className="mt-5 flex items-center gap-2.5 rounded-xl border border-brand/25 bg-brand-light/60 px-4 py-3 text-[14.5px] font-medium text-brand"
+                    role="status"
+                  >
+                    <motion.span
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: "spring", stiffness: 500, damping: 22, delay: 0.1 }}
+                      className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-brand text-white"
+                    >
+                      <Check className="h-3.5 w-3.5" strokeWidth={3} aria-hidden />
+                    </motion.span>
+                    Thanks! Our team will call you shortly to confirm your appointment.
+                  </motion.p>
+                )}
+              </AnimatePresence>
+            </form>
+          </motion.div>
+        </div>
+      </section>
+    </MotionConfig>
   );
 }

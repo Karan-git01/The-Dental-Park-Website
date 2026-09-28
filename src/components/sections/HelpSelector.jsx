@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ArrowRight, Check } from "lucide-react";
 import { helpOptions } from "../../data/help";
 import { Reveal } from "../shared/Reveal";
@@ -9,6 +10,7 @@ import { helpToTreatment, prefillAppointment } from "../../lib/appointmentPrefil
 export function HelpSelector() {
   const [selected, setSelected] = useState(null);
   const navigate = useNavigate();
+  const prefersReducedMotion = useReducedMotion();
 
   return (
     <section id="help" className="bg-background py-16 lg:py-24" aria-labelledby="help-heading">
@@ -36,10 +38,11 @@ export function HelpSelector() {
                   aria-pressed={active}
                   onClick={() => setSelected(id)}
                   className={cn(
-                    "card-premium group relative flex h-full w-full flex-col items-center overflow-hidden rounded-2xl border px-4 py-6 text-center transition-all duration-300 sm:px-5 sm:py-7",
+                    "group relative flex h-full w-full flex-col items-start rounded-2xl border bg-white px-4 py-6 text-left transition-all duration-300 active:scale-[0.98] sm:px-5 sm:py-7",
+                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                     active
-                      ? "border-gold/60 shadow-float ring-1 ring-gold/40"
-                      : "border-line hover:-translate-y-1.5 hover:border-gold/40 hover:shadow-float",
+                      ? "border-brand shadow-card"
+                      : "border-line hover:-translate-y-1 hover:border-brand/30 hover:shadow-card",
                   )}
                 >
                   {active && (
@@ -49,10 +52,10 @@ export function HelpSelector() {
                   )}
                   <span
                     className={cn(
-                      "grid h-16 w-16 place-items-center rounded-full ring-1 ring-inset transition-all duration-300",
+                      "grid h-16 w-16 place-items-center rounded-full transition-colors duration-300",
                       active
-                        ? "brand-gradient ring-gold/40"
-                        : "bg-brand-light/70 ring-brand/10 group-hover:bg-brand-light",
+                        ? "bg-brand"
+                        : "bg-neutral-100 group-hover:bg-brand-light",
                     )}
                   >
                     <Icon
@@ -64,10 +67,10 @@ export function HelpSelector() {
                       aria-hidden
                     />
                   </span>
-                  <span className="mt-5 block text-[15px] font-semibold leading-snug text-ink sm:text-[17px]">
+                  <span className="font-display mt-5 block text-[15px] font-semibold leading-snug text-ink sm:text-[17px]">
                     {title}
                   </span>
-                  <span className="mt-2 block max-w-[190px] text-[13px] leading-[1.45] text-body sm:text-[14px]">
+                  <span className="mt-2 block text-[13px] leading-[1.45] text-body sm:text-[14px]">
                     {description}
                   </span>
                 </button>
@@ -90,17 +93,29 @@ export function HelpSelector() {
               prefillAppointment(treatment);
             }}
             className={cn(
-              "group/cta inline-flex h-[58px] items-center justify-center gap-3 rounded-xl px-12 text-[17px] font-semibold text-white transition-all duration-300",
+              "group/cta inline-flex h-[48px] items-center justify-center gap-3 rounded-xl px-10 text-[16px] font-semibold transition-all duration-300",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background",
               selected
-                ? "brand-gradient glow-hover hover:brightness-110"
-                : "cursor-not-allowed bg-brand/35",
+                ? "text-white brand-gradient glow-hover hover:brightness-110"
+                : "cursor-not-allowed border border-line bg-transparent text-muted-ink",
             )}
           >
             Continue
             <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover/cta:translate-x-1" strokeWidth={2} aria-hidden />
           </button>
-          <p className="text-[13.5px] text-muted-ink" aria-live="polite">
-            {selected ? "Great — continue to book your appointment." : "Select an option above to continue."}
+          <p className="text-[13.5px] mt-2 text-muted-ink" aria-live="polite">
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={selected ? "active" : "idle"}
+                initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 4 }}
+                animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+                exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -4 }}
+                transition={{ duration: prefersReducedMotion ? 0.01 : 0.25, ease: [0.22, 1, 0.36, 1] }}
+                className="inline-block"
+              >
+                {selected ? "Great — continue to book your appointment." : "Select an option above to continue."}
+              </motion.span>
+            </AnimatePresence>
           </p>
         </div>
       </div>
