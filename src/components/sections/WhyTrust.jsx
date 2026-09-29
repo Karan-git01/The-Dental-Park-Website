@@ -1,4 +1,4 @@
-import trustImage from "../../assets/images/trust/why-trust-clinic.jpg";
+import trustImage from "../../assets/images/trust/why-trust-clinic.webp";
 import { trustPillars } from "../../data/trust";
 import { Reveal } from "../shared/Reveal";
 import { cn } from "../../lib/utils";

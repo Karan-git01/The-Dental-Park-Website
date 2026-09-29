@@ -1,8 +1,8 @@
-import heroWoman from "../assets/images/hero/slide-woman.jpg";
-import heroMan from "../assets/images/hero/slide-man.jpg";
-import heroChild from "../assets/images/hero/slide-child.png";
-import heroSenior from "../assets/images/hero/slide-senior.png";
-import heroFamily from "../assets/images/hero/slide-family.png";
+import heroWoman from "../assets/images/hero/slide-woman.webp";
+import heroMan from "../assets/images/hero/slide-man.webp";
+import heroChild from "../assets/images/hero/slide-child.webp";
+import heroSenior from "../assets/images/hero/slide-senior.webp";
+import heroFamily from "../assets/images/hero/slide-family.webp";
 
 const eyebrow = "For Healthier Smiles";
 
