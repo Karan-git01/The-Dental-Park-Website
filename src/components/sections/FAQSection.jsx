@@ -8,30 +8,37 @@ import { cn } from "../../lib/utils";
 
 const EASE = [0.16, 1, 0.3, 1]; // ease-out-expo — used across the accordion's open/close motion
 
-export function FAQSection() {
+export function FAQSection({ showHeading = true }) {
   const [open, setOpen] = useState(0);
   const prefersReducedMotion = useReducedMotion();
 
   return (
     <section id="faq" className="bg-white py-16 lg:py-28" aria-labelledby="faq-heading">
       <div className="mx-auto max-w-[1180px] px-5 lg:px-10">
-        <div className="lg:grid lg:grid-cols-[360px_1fr] lg:gap-16">
-          {/* Left: sticky intro column */}
-          <Reveal className="lg:sticky lg:top-28 lg:self-start">
-            <h2
-              id="faq-heading"
-              className="font-display text-[32px] font-bold leading-[1.12] tracking-[-0.01em] text-ink sm:text-[40px] lg:text-[44px]"
-            >
+        <div className={cn(showHeading && "lg:grid lg:grid-cols-[360px_1fr] lg:gap-16")}>
+          {/* Left: sticky intro column. On the FAQ page the page header already shows this text,
+              so only a screen-reader heading remains there and the list uses the full width. */}
+          {showHeading ? (
+            <Reveal className="lg:sticky lg:top-28 lg:self-start">
+              <h2
+                id="faq-heading"
+                className="font-display text-[28px] font-bold leading-[1.12] tracking-[-0.01em] text-ink sm:text-[40px] lg:text-[44px]"
+              >
+                Frequently asked questions
+              </h2>
+              <p className="mt-5 max-w-[36ch] text-[15px] leading-[1.75] text-body">
+                Everything you need to know about our services, appointments and treatments.
+              </p>
+              <div className="mt-8 hidden h-px w-16 bg-brand/30 lg:block" />
+            </Reveal>
+          ) : (
+            <h2 id="faq-heading" className="sr-only">
               Frequently asked questions
             </h2>
-            <p className="mt-5 max-w-[36ch] text-[15px] leading-[1.75] text-body">
-              Everything you need to know about our services, appointments and treatments.
-            </p>
-            <div className="mt-8 hidden h-px w-16 bg-brand/30 lg:block" />
-          </Reveal>
+          )}
 
           {/* Right: accordion list */}
-          <div className="mt-12 lg:mt-0">
+          <div className={cn(showHeading ? "mt-12 lg:mt-0" : "mx-auto max-w-[820px]")}>
             {faqs.map((faq, i) => {
               const Icon = faq.icon;
               const isOpen = open === i;

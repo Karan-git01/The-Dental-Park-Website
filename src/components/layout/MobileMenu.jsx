@@ -139,24 +139,16 @@ export function MobileMenu() {
       className="fixed inset-0 z-[100] flex animate-[fade-in_160ms_ease-out] flex-col bg-white"
     >
       {/* Header bar: fixed to HEADER_HEIGHT so it lines up exactly with the
-          real page header sitting underneath — no jump on open/close. */}
+          real page header sitting underneath — no jump on open/close.
+          It always shows just the logo + close button; the back arrow lives
+          on the "Treatments" row below, not here. */}
       <div
-        className="flex shrink-0 items-center gap-3 bg-ink px-4"
+        className="flex shrink-0 items-center gap-3 bg-ink px-6"
         style={{
           height: headerHeight,
           paddingTop: "env(safe-area-inset-top, 0px)",
         }}
       >
-        {showTreatments && (
-          <button
-            type="button"
-            aria-label="Back to menu"
-            onClick={() => setShowTreatments(false)}
-            className="grid h-12 w-12 shrink-0 place-items-center rounded-full text-white/90 transition-colors hover:bg-white/10 active:scale-90"
-          >
-            <ArrowLeft className="h-7 w-7" strokeWidth={1.75} aria-hidden />
-          </button>
-        )}
         {/* Logo's text switches to white via variant="light"; the tooth
             icon keeps its original colors (no filter/invert applied). */}
         <Logo variant="light" />
@@ -166,7 +158,7 @@ export function MobileMenu() {
           onClick={() => setOpen(false)}
           className="ml-auto grid h-12 w-12 shrink-0 place-items-center rounded-full text-white/90 transition-colors hover:bg-white/10 active:scale-90"
         >
-          <X className="h-7 w-7" strokeWidth={1.75} aria-hidden />
+          <X className="h-10 w-10" strokeWidth={1.75} aria-hidden />
         </button>
       </div>
 
@@ -177,12 +169,23 @@ export function MobileMenu() {
       >
         {showTreatments ? (
           <div className="animate-[slide-in-right_240ms_cubic-bezier(0.22,1,0.36,1)]">
-            <div className="flex items-center gap-3 border-b border-ink/10 py-5">
-              <Smile className="h-7 w-7 text-brand" strokeWidth={1.5} aria-hidden />
+            {/* Back arrow sits on the Treatments row itself; the whole row
+                is the back button. */}
+            <button
+              type="button"
+              aria-label="Back to menu"
+              onClick={() => setShowTreatments(false)}
+              className="group flex w-full items-center gap-3 border-b border-ink/10 py-5 text-left transition-colors active:text-brand"
+            >
+              <ArrowLeft
+                className="h-8 w-8 shrink-0 text-brand transition-transform group-active:-translate-x-0.5"
+                strokeWidth={1.75}
+                aria-hidden
+              />
               <span className="text-[17px] font-medium tracking-tight text-ink">
                 Treatments
               </span>
-            </div>
+            </button>
             <ul>
               {treatments.map((t, i) => (
                 <li
@@ -220,7 +223,7 @@ export function MobileMenu() {
                     onClick={() => setShowTreatments(true)}
                     className="group flex w-full items-center gap-4 border-b border-ink/[0.06] py-[18px] text-left"
                   >
-                    <Icon className="h-7 w-7 shrink-0 text-brand" strokeWidth={1.5} aria-hidden />
+                    <Icon className="h-8 w-8 shrink-0 text-brand" strokeWidth={1.5} aria-hidden />
                     <span className="text-[17px] font-medium tracking-tight text-ink">
                       {label}
                     </span>
@@ -241,7 +244,7 @@ export function MobileMenu() {
                       }`
                     }
                   >
-                    <Icon className="h-7 w-7 shrink-0 text-brand" strokeWidth={1.5} aria-hidden />
+                    <Icon className="h-8 w-8 shrink-0 text-brand" strokeWidth={1.5} aria-hidden />
                     <span className="text-[17px] font-medium tracking-tight">{label}</span>
                   </NavLink>
                 )}
@@ -257,7 +260,7 @@ export function MobileMenu() {
             onClick={() => setOpen(false)}
             className="flex items-center gap-8 rounded-xl bg-brand px-6 py-6 transition-transform active:scale-[0.98]"
           >
-            <CalendarDays className="h-7 w-7 shrink-0 text-white" strokeWidth={1.5} aria-hidden />
+            <CalendarDays className="h-8 w-8 shrink-0 text-white" strokeWidth={1.5} aria-hidden />
             <span className="leading-tight">
               <span className="block text-[15px] font-medium text-white">Book an appointment</span>
               <span className="block text-[13.5px] text-white/80">Pick a time that works</span>
@@ -268,7 +271,7 @@ export function MobileMenu() {
             href={contactInfo.phoneHref}
             className="flex items-center gap-8 rounded-xl bg-brand/[0.08] px-6 py-6 transition-transform active:scale-[0.98]"
           >
-            <Phone className="h-7 w-7 shrink-0 text-brand" strokeWidth={1.5} aria-hidden />
+            <Phone className="h-8 w-8 shrink-0 text-brand" strokeWidth={1.5} aria-hidden />
             <span className="leading-tight">
               <span className="block text-[15px] font-medium text-ink">Call us now</span>
               <span className="block text-[13.5px] text-ink/60">{contactInfo.phone}</span>

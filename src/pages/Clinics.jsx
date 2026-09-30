@@ -30,6 +30,11 @@ function getOpeningHoursSchema(hours) {
   return lines.length === 1 ? lines[0] : lines;
 }
 
+// Shared presentation
+const circleClass = "grid h-14 w-14 shrink-0 place-items-center rounded-full bg-brand";
+const focusClass =
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2";
+
 export function Clinics() {
   return (
     <SiteLayout>
@@ -67,69 +72,81 @@ export function Clinics() {
         crumbs={[{ label: "Clinics" }]}
       />
 
-      <section className="bg-background py-14 lg:py-20" aria-labelledby="clinic-list-heading">
-        <div className="mx-auto max-w-[1240px] px-5 lg:px-8">
+      <section className="bg-white pb-16 pt-16 lg:pb-20 lg:pt-24" aria-labelledby="clinic-list-heading">
+        <div className="mx-auto max-w-[1280px] px-6 lg:px-10">
           <h2 id="clinic-list-heading" className="sr-only">
             Clinic location
           </h2>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6">
             {clinics.map((clinic, i) => {
               const hoursLines = getHoursLines(clinic.hours);
 
               return (
                 <Reveal key={clinic.id} delay={(i % 3) * 90} className="h-full">
-                  <article className="card-premium flex h-full flex-col rounded-[22px] border border-line p-6 transition-all duration-300 hover:-translate-y-1.5 hover:border-gold/45 hover:shadow-float">
-                    <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-brand-light px-3 py-1 text-[12px] font-semibold uppercase tracking-[0.08em] text-brand">
-                      <MapPin className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
-                      {clinic.city}
-                    </span>
-                    <h3 className="mt-4 font-display text-[20px] font-semibold leading-snug text-ink">{clinic.name}</h3>
-                    <p className="mt-2 text-[14.5px] leading-[1.7] text-body">{clinic.address}</p>
+                  <article className="grid gap-10 rounded-[24px] border border-line bg-white p-7 lg:grid-cols-12 lg:gap-8 lg:p-12">
+                    {/* Left: where */}
+                    <div className="lg:col-span-7">
+                      <div className="flex items-center gap-3">
+                        <span className={circleClass}>
+                          <MapPin className="h-7 w-7 text-white" strokeWidth={1.8} aria-hidden />
+                        </span>
+                        <span className="text-[14px] font-semibold text-brand">{clinic.city}</span>
+                      </div>
+                      <h3 className="mt-8 font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.02em] text-ink lg:text-[36px]">
+                        {clinic.name}
+                      </h3>
+                      <p className="mt-4 max-w-[46ch] text-[15.5px] leading-[1.75] text-body">{clinic.address}</p>
 
-                    <div className="mt-4 flex items-start gap-2 text-[14px] text-body">
-                      <Clock className="mt-0.5 h-4 w-4 shrink-0 text-brand" strokeWidth={1.7} aria-hidden />
-                      <div className="flex flex-col gap-0.5">
-                        {hoursLines.map((line, idx) => (
-                          <span key={idx}>{line}</span>
-                        ))}
+                      <div className="mt-8 flex flex-wrap gap-3">
+                        <a
+                          href={clinic.phoneHref}
+                          className={`inline-flex h-11 items-center gap-2 rounded-xl bg-brand px-8 text-[14px] font-semibold text-white transition-colors duration-300 hover:bg-brand-hover ${focusClass}`}
+                        >
+                          <Phone className="h-6 w-6" strokeWidth={1.9} aria-hidden />
+                          Call
+                        </a>
+                        <a
+                          href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(clinic.mapQuery)}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className={`inline-flex h-11 items-center gap-2 rounded-xl border border-line px-5 text-[14px] font-semibold text-ink transition-colors duration-300 hover:border-brand/45 hover:text-brand ${focusClass}`}
+                        >
+                          <Navigation className="h-6 w-6" strokeWidth={1.9} aria-hidden />
+                          Directions
+                        </a>
+                        <Link
+                          to="/contact"
+                          className={`group inline-flex h-11 items-center gap-2 rounded-xl px-8 text-[14px] font-semibold text-brand transition-[gap] duration-300 hover:gap-3 motion-reduce:transition-none ${focusClass}`}
+                        >
+                          Book
+                          <ArrowRight className="h-6 w-6" strokeWidth={2} aria-hidden />
+                        </Link>
                       </div>
                     </div>
 
-                    <ul className="mt-4 flex flex-wrap gap-2">
-                      {clinic.services.map((s) => (
-                        <li
-                          key={s}
-                          className="rounded-full border border-line px-3 py-1 text-[12.5px] font-medium text-body"
-                        >
-                          {s}
-                        </li>
-                      ))}
-                    </ul>
+                    {/* Right: when + what */}
+                    <div className="flex flex-col gap-8 lg:col-span-5">
+                      <div className="flex items-start gap-4">
+                        <span className={circleClass}>
+                          <Clock className="h-7 w-7 text-white" strokeWidth={1.8} aria-hidden />
+                        </span>
+                        <div className="flex flex-col gap-1 text-[15px] leading-[1.7] text-body">
+                          {hoursLines.map((line, idx) => (
+                            <span key={idx}>{line}</span>
+                          ))}
+                        </div>
+                      </div>
 
-                    <div className="mt-6 flex flex-wrap gap-2.5 border-t border-line pt-5">
-                      <a
-                        href={clinic.phoneHref}
-                        className="inline-flex h-11 items-center gap-2 rounded-xl bg-brand px-4 text-[14px] font-semibold text-white transition-all duration-300 hover:bg-brand-hover"
-                      >
-                        <Phone className="h-4 w-4" strokeWidth={1.9} aria-hidden />
-                        Call
-                      </a>
-                      <a
-                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(clinic.mapQuery)}`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex h-11 items-center gap-2 rounded-xl border border-line px-4 text-[14px] font-semibold text-ink transition-all duration-300 hover:border-brand/45 hover:text-brand"
-                      >
-                        <Navigation className="h-4 w-4" strokeWidth={1.9} aria-hidden />
-                        Directions
-                      </a>
-                      <Link
-                        to="/contact"
-                        className="inline-flex h-11 items-center gap-2 rounded-xl px-4 text-[14px] font-semibold text-brand transition-all duration-300 hover:gap-3"
-                      >
-                        Book
-                        <ArrowRight className="h-4 w-4" strokeWidth={2} aria-hidden />
-                      </Link>
+                      <ul className="flex flex-wrap gap-2">
+                        {clinic.services.map((s) => (
+                          <li
+                            key={s}
+                            className="rounded-lg border border-line px-3 py-1.5 text-[13px] font-medium text-body"
+                          >
+                            {s}
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   </article>
                 </Reveal>
@@ -139,16 +156,15 @@ export function Clinics() {
         </div>
       </section>
 
-      <section className="bg-surface py-14 lg:py-20" aria-labelledby="clinic-map-heading">
-        <div className="mx-auto max-w-[1240px] px-5 lg:px-8">
+      <section className="bg-white pb-16 lg:pb-28" aria-labelledby="clinic-map-heading">
+        <div className="mx-auto max-w-[1280px] px-6 lg:px-10">
           <h2
             id="clinic-map-heading"
-            className="font-display text-[26px] font-bold leading-tight text-ink sm:text-[34px]"
+            className="font-display text-[28px] font-bold leading-tight tracking-[-0.02em] text-ink sm:text-[36px]"
           >
             Find Us on the Map
           </h2>
-          <span className="mt-3 block h-[3px] w-10 rounded-full bg-brand" />
-          <div className="mt-7 overflow-hidden rounded-[22px] border border-line bg-white shadow-card">
+          <div className="mt-8 overflow-hidden rounded-[24px] border border-line bg-white">
             <iframe
               title="The Dental Park clinic location map"
               src="https://www.google.com/maps?q=113/1A+Hazra+Rd,+Kalighat,+Kolkata,+West+Bengal+700026&output=embed"

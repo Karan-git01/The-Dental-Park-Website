@@ -35,15 +35,16 @@ const socials = [
   { icon: Instagram, label: "Instagram", href: "https://instagram.com" },
   { icon: Facebook, label: "Facebook", href: "https://facebook.com" },
   { icon: WhatsAppIcon, label: "WhatsApp", href: contactInfo.whatsapp },
-  { icon: Youtube, label: "YouTube", href: "https://youtube.com" },
-  { icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com" },
+  // { icon: Youtube, label: "YouTube", href: "https://youtube.com" },
+  // { icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com" },
 ];
 
+// Only the legal pages live here. "Our Clinics" and "Book Appointment" were
+// removed because they already appear in the CTA, the address block and the
+// "Visit Us" section above.
 const legal = [
-  { label: "Privacy Policy", to: "/faq" },
-  { label: "Terms of Use", to: "/faq" },
-  { label: "Our Clinics", to: "/clinics" },
-  { label: "Book Appointment", to: "/contact" },
+  { label: "Privacy Policy", to: "/privacy-policy" },
+  { label: "Terms of Use", to: "/terms" },
 ];
 
 const hours = ["Mon–Fri: 10 AM–9 PM", "Sat: 10 AM–5:30 PM", "Sun: Closed"];

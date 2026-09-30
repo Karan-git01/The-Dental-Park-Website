@@ -186,7 +186,7 @@ export function Hero() {
               reveal(0),
             )}
           >
-            <Heart className="h-4 w-4  fill-gold text-gold md:h-4.5 md:w-4.5" strokeWidth={1.5} aria-hidden />
+            <Heart className="h-6 w-6  fill-gold text-gold md:h-4.5 md:w-4.5" strokeWidth={1.5} aria-hidden />
             {slide.eyebrow}
           </span>
 

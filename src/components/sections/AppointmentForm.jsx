@@ -1,7 +1,7 @@
 // src/components/sections/AppointmentForm.jsx
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion, MotionConfig } from "motion/react";
-import { Check, ChevronDown, Loader2 } from "lucide-react";
+import { ArrowRight, Check, ChevronDown, Loader2 } from "lucide-react";
 import { z } from "zod";
 import { treatmentLinks } from "../../data/navigation";
 import { onAppointmentPrefill } from "../../lib/appointmentPrefill.js";
@@ -250,25 +250,35 @@ export function AppointmentForm() {
                   I agree to receive appointment confirmations and updates via call, SMS, or WhatsApp.
                 </label>
 
+                {/* Matches the footer CTA: 48px height, 26px padding, 14.5px semibold,
+                    4px radius, arrow that nudges right on hover. Colours are inverted
+                    (gold fill) because this section already sits on the brand colour. */}
                 <motion.button
                   type="submit"
                   disabled={submitting}
                   whileTap={submitting ? undefined : { scale: 0.98 }}
                   transition={{ duration: 0.2, ease: "easeOut" }}
-                  className="flex h-14 w-full shrink-0 items-center justify-center gap-2.5 rounded-[4px] bg-gold px-10 text-[15px] font-semibold text-ink transition-colors duration-200 hover:bg-white disabled:cursor-wait disabled:opacity-80 sm:w-auto sm:min-w-[200px]"
+                  className="group inline-flex h-[48px] w-full shrink-0 items-center justify-center gap-2 rounded-[4px]! bg-gold px-[26px] text-[14.5px] font-semibold text-ink transition-colors duration-300 hover:bg-white disabled:cursor-wait disabled:opacity-80 sm:w-auto"
                 >
                   {submitting ? (
                     <>
-                      <Loader2 className="h-5 w-5 animate-spin" strokeWidth={2} aria-hidden />
+                      <Loader2 className="h-[16px] w-[16px] animate-spin" strokeWidth={2} aria-hidden />
                       Booking...
                     </>
                   ) : done ? (
                     <>
-                      <Check className="h-5 w-5" strokeWidth={2.5} aria-hidden />
+                      <Check className="h-[16px] w-[16px]" strokeWidth={2.5} aria-hidden />
                       Booked
                     </>
                   ) : (
-                    "Book Now"
+                    <>
+                      Book an Appointment
+                      <ArrowRight
+                        className="h-[16px] w-[16px] transition-transform duration-300 group-hover:translate-x-1"
+                        strokeWidth={2}
+                        aria-hidden
+                      />
+                    </>
                   )}
                 </motion.button>
               </div>

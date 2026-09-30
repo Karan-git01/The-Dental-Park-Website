@@ -29,7 +29,7 @@ export function Faq() {
         description="Everything you need to know about our services, appointments and treatments."
         crumbs={[{ label: "FAQs" }]}
       />
-      <FAQSection />
+      <FAQSection showHeading={false} />
     </SiteLayout>
   );
 }

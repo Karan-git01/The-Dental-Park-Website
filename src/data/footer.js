@@ -1,3 +1,8 @@
+// src/data/footer.js
+// Every link below points to a unique page. "Explore Dental Park" was removed
+// because all of its links already appear in the other columns, the CTA or the
+// address block.
+
 export const footerColumns = [
   {
     title: "Our Advantage",
@@ -6,7 +11,6 @@ export const footerColumns = [
       { label: "Patient Testimonials", to: "/testimonials" },
       { label: "Before & After Gallery", to: "/gallery" },
       { label: "Advanced Technology", to: "/technology" },
-      { label: "Smile Gallery", to: "/gallery" },
     ],
   },
   {
@@ -25,21 +29,9 @@ export const footerColumns = [
     links: [
       { label: "About Us", to: "/about" },
       { label: "Our Doctors", to: "/doctors" },
-      { label: "Why Dental Park", to: "/about" },
       { label: "Treatments", to: "/treatments" },
       { label: "FAQs", to: "/faq" },
       { label: "Contact Us", to: "/contact" },
-    ],
-  },
-  {
-    title: "Explore Dental Park",
-    links: [
-      { label: "Book an Appointment", to: "/contact" },
-      { label: "Our Clinics", to: "/clinics" },
-      { label: "Patient Education", to: "/technology" },
-      { label: "Smile Gallery", to: "/gallery" },
-      { label: "Testimonials", to: "/testimonials" },
-      { label: "Treatments", to: "/treatments" },
     ],
   },
 ];

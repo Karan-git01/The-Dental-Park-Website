@@ -3,6 +3,7 @@ import { testimonials } from "../../data/testimonials";
 import { trustStrip } from "../../data/trust";
 import { CountUp } from "../shared/CountUp";
 import { Reveal } from "../shared/Reveal";
+import { cn } from "../../lib/utils";
 
 function TestimonialCard({ t }) {
   return (
@@ -33,12 +34,13 @@ function TestimonialCard({ t }) {
   );
 }
 
-export function Testimonials() {
+export function Testimonials({ showHeading = true }) {
   return (
     <section id="testimonials" className="bg-background py-16 lg:py-24" aria-labelledby="testimonials-heading">
       <div className="mx-auto max-w-[1240px] px-5 lg:px-8">
         <Reveal as="header" className="text-center">
-          <h2 id="testimonials-heading" className="font-display leading-tight">
+          {/* Home shows the heading; the Testimonials page already has it in its page header, so it stays screen-reader only there */}
+          <h2 id="testimonials-heading" className={cn("font-display leading-tight", !showHeading && "sr-only")}>
             <span className="block text-[28px] font-bold text-ink sm:text-[38px] lg:text-[44px]">
               Loved by Our Patients,
             </span>
@@ -46,8 +48,13 @@ export function Testimonials() {
               Proven by Their Smiles
             </span>
           </h2>
-          <span className="mx-auto mt-4 block h-[3px] w-10 rounded-full bg-brand" />
-          <p className="mx-auto mt-5 max-w-[520px] text-[15px] leading-[1.6] text-body sm:text-[16px]">
+          {showHeading && <span className="mx-auto mt-4 block h-[3px] w-10 rounded-full bg-brand" />}
+          <p
+            className={cn(
+              "mx-auto max-w-[520px] text-[15px] leading-[1.6] text-body sm:text-[16px]",
+              showHeading && "mt-5",
+            )}
+          >
             Real stories from real patients who experienced exceptional dental care with us.
           </p>
         </Reveal>

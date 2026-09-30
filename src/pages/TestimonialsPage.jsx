@@ -11,7 +11,7 @@ export function TestimonialsPage() {
         description="Thousands of patients trust The Dental Park with their smiles every year. Here is what a few of them have to say."
         crumbs={[{ label: "Testimonials" }]}
       />
-      <Testimonials />
+      <Testimonials showHeading={false} />
     </SiteLayout>
   );
 }

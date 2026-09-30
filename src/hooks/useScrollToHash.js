@@ -3,6 +3,8 @@ import { useLocation } from "react-router-dom";
 
 const HEADER_OFFSET = 96;
 
+// Handles /#anchor links only. Scroll-to-top on page change now happens in
+// App.jsx (after the exit animation), so the old page never visibly jumps.
 export function useScrollToHash() {
   const { hash, pathname } = useLocation();
 
@@ -18,9 +20,15 @@ export function useScrollToHash() {
       return true;
     };
 
-    if (!scroll()) {
-      const t = setTimeout(scroll, 100);
-      return () => clearTimeout(t);
-    }
+    if (scroll()) return;
+
+    // The new page may not be mounted yet (exit animation runs first), so
+    // keep trying for ~1.5s.
+    let tries = 0;
+    const timer = setInterval(() => {
+      tries += 1;
+      if (scroll() || tries >= 15) clearInterval(timer);
+    }, 100);
+    return () => clearInterval(timer);
   }, [hash, pathname]);
 }
