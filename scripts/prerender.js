@@ -4,6 +4,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { writeCrawlerFiles } from "./crawler-files.js";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dist = path.join(root, "dist");
@@ -49,6 +50,9 @@ for (const url of routes) {
     console.error(`FAILED ${url}:`, error);
   }
 }
+
+// sitemap.xml, robots.txt and llms.txt, built from the same route list.
+if (failed === 0) writeCrawlerFiles({ dist, routes });
 
 // The server bundle is only needed for this step.
 fs.rmSync(path.join(root, "dist-server"), { recursive: true, force: true });

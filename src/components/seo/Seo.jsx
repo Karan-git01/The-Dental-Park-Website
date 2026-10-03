@@ -13,7 +13,13 @@ import {
 import { serializeJsonLd } from "./JsonLd.jsx";
 
 // Re-exported so any existing `import { SITE_URL } from ".../Seo"` keeps working.
-export { SITE_URL, SITE_NAME, ALLOW_INDEXING, DEFAULT_DESCRIPTION, DEFAULT_IMAGE };
+export {
+  SITE_URL,
+  SITE_NAME,
+  ALLOW_INDEXING,
+  DEFAULT_DESCRIPTION,
+  DEFAULT_IMAGE,
+};
 
 /**
  * Env vars (Vercel dashboard -> Settings -> Environment Variables):
@@ -75,6 +81,16 @@ export function Seo({
       <meta property="og:description" content={desc} />
       <meta property="og:url" content={url} />
       <meta property="og:image" content={img} />
+      <meta
+        property="og:image:alt"
+        content={`${SITE_NAME}, dental clinic in Kalighat, Kolkata`}
+      />
+      {image === DEFAULT_IMAGE && (
+        <meta property="og:image:width" content="1200" />
+      )}
+      {image === DEFAULT_IMAGE && (
+        <meta property="og:image:height" content="630" />
+      )}
 
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={fullTitle} />

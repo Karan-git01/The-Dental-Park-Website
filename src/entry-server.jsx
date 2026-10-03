@@ -4,29 +4,14 @@ import { renderToString } from "react-dom/server";
 import { StaticRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import App from "./App.jsx";
+import { indexablePaths } from "./data/seo";
 
-/** Every URL that gets its own static HTML file. */
-const staticRoutes = [
-  "/",
-  "/about",
-  "/gallery",
-  "/clinics",
-  "/doctors",
-  "/contact",
-  "/faq",
-  "/technology",
-  "/testimonials",
-  "/treatments",
-  "/privacy-policy",
-  "/terms",
-];
-
-// TODO (Batch 2): add the 12 treatment pages once data/treatments.js is shared:
-//   import { treatments } from "./data/treatments";
-//   const treatmentRoutes = treatments.map((t) => `/treatments/${t.slug}`);
-const treatmentRoutes = [];
-
-export const routes = [...staticRoutes, ...treatmentRoutes];
+/**
+ * Every URL that gets its own static HTML file. The list lives in
+ * src/data/seo.js (12 static pages + one page per treatment), so the prerender,
+ * the sitemap and the page titles can never get out of step.
+ */
+export const routes = indexablePaths();
 
 export function render(url) {
   const helmetContext = {};
