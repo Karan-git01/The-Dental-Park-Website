@@ -1,54 +1,38 @@
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
-import {
-  ArrowRight,
-  Award,
-  CalendarDays,
-  MapPin,
-  Phone,
-  Sparkles,
-  Stethoscope,
-  Users,
-} from "lucide-react";
+import { ArrowRight, CalendarDays, MapPin, Phone, Stethoscope } from "lucide-react";
 import { SiteLayout } from "../components/layout/SiteLayout";
 import { PageHeader } from "../components/shared/PageHeader";
 import { Reveal } from "../components/shared/Reveal";
+import { Seo } from "../components/seo/Seo";
+import { physicianSchema, dentistSchema, breadcrumbSchema } from "../lib/schema";
 import { contactInfo } from "../data/navigation";
 import { clinic } from "../data/clinics";
 import doctorImage from "../assets/images/doctors/lead-dentist.jpg";
 
-// NOTE: bio, stats, education, expertise and quote below are unedited
-// Lovable-reference content — not yet confirmed against the PRD.
-// Kept as-is per instruction; replace with approved copy before launch.
+// Confirmed clinic data. Add a years-of-practice figure, a bio quote or
+// college names only after the doctor approves them.
+const secondaryPhone = { display: "+91 91314 67829", href: "tel:+919131467829" };
+
 const doctor = {
-  name: "Dr. Arvind Sharma",
-  credentials: "BDS, MDS — Orthodontics & Implantology",
-  role: "Founder & Chief Dental Surgeon",
+  name: "Dr. Pratik Singh",
+  credentials: "BDS — Certified Medical Facial Cosmetologist",
+  role: "Founder & Lead Dental Surgeon",
   bio: [
-    "Dr. Arvind Sharma founded The Dental Park with a single belief — that world-class dentistry should feel calm, clear and completely personal. Over 16 years he has planned and delivered more than 7,000 treatments, from single-visit root canals to complete full-mouth rehabilitations.",
-    "Every case begins with a digital diagnosis, an honest conversation and a plan you understand before anything is started. He personally performs each surgical and cosmetic case at the clinic, supported by a trained clinical team and fully digital workflow.",
-  ],
-  quote:
-    "A great smile is never rushed. It is measured, planned and then crafted — exactly the way it deserves to be.",
-  stats: [
-    { icon: Award, value: "16+", label: "Years of practice" },
-    { icon: Users, value: "7,000+", label: "Treatments delivered" },
-    { icon: Sparkles, value: "1,200+", label: "Smile makeovers" },
-    { icon: Stethoscope, value: "100%", label: "Doctor-led care" },
+    "Dr. Pratik Singh is the founder and Lead Dental Surgeon of The Dental Park on Hazra Road, Kalighat, Kolkata. A Bachelor of Dental Surgery (BDS) graduate, he combines clinical dentistry with advanced facial aesthetics as a certified Medical Facial Cosmetologist.",
+    "His practice focuses on complex, aesthetic and fixed restorative cases — from painless single-sitting root canal treatments to complete smile makeovers, zirconia and ceramic crowns, fixed bridges and surgical extractions.",
   ],
   expertise: [
-    "Full-arch & single tooth dental implants",
-    "Digital smile design and porcelain veneers",
-    "Clear aligner and fixed orthodontic treatment",
-    "Single-visit painless root canal therapy",
-    "Full mouth rehabilitation and bite correction",
-    "Laser gum contouring and soft tissue surgery",
+    "Prosthodontics: zirconia, ceramic and metal-ceramic crowns",
+    "Fixed dental bridges and tooth restorations",
+    "Painless, single-sitting Root Canal Treatment (RCT)",
+    "Full smile makeovers",
+    "Professional teeth whitening",
+    "Surgical extractions, including impacted wisdom teeth",
+    "Facial aesthetics as a Medical Facial Cosmetologist",
   ],
   education: [
-    { title: "MDS — Orthodontics & Dentofacial Orthopaedics", detail: "Government Dental College" },
-    { title: "BDS — Bachelor of Dental Surgery", detail: "Manipal College of Dental Sciences" },
-    { title: "Fellowship in Oral Implantology", detail: "International Congress of Oral Implantologists" },
-    { title: "Certified Clear Aligner Provider", detail: "Advanced digital orthodontics programme" },
+    { title: "BDS — Bachelor of Dental Surgery", detail: "Qualification to practise dentistry in India" },
+    { title: "Certified Medical Facial Cosmetologist", detail: "Dental design combined with facial aesthetics" },
   ],
 };
 
@@ -58,22 +42,20 @@ const mapQuery = encodeURIComponent(clinic.mapQuery);
 export function Doctors() {
   return (
     <SiteLayout>
-      <Helmet>
-        <title>Dr. Arvind Sharma | Chief Dental Surgeon — The Dental Park</title>
-        <meta
-          name="description"
-          content="Meet Dr. Arvind Sharma, founder and chief dental surgeon at The Dental Park — 16+ years in implantology, orthodontics and digital smile design."
-        />
-        <meta property="og:title" content="Meet Dr. Arvind Sharma | The Dental Park" />
-        <meta
-          property="og:description"
-          content="Doctor-led dentistry: implants, aligners and smile design planned and performed by one specialist."
-        />
-        <meta property="og:type" content="profile" />
-        <meta property="og:url" content="/doctors" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <link rel="canonical" href="/doctors" />
-      </Helmet>
+      <Seo
+        path="/doctors"
+        type="profile"
+        schema={[
+          physicianSchema({
+            image: doctorImage,
+            description: doctor.bio[0],
+            credentials: doctor.education.map((e) => e.title),
+            knowsAbout: doctor.expertise,
+          }),
+          dentistSchema(),
+          breadcrumbSchema("/doctors"),
+        ]}
+      />
 
       <PageHeader
         eyebrow="Our Doctor"
@@ -107,16 +89,6 @@ export function Doctors() {
                     <p className="text-[12.5px] text-brand">{doctor.credentials}</p>
                   </div>
                 </div>
-
-                {/* Stats: one hairline grid, big numerals, no icons or cards */}
-                <ul className="mt-5 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line">
-                  {doctor.stats.map(({ value, label }) => (
-                    <li key={label} className="bg-white px-5 py-6">
-                      <p className="font-display text-[28px] font-bold leading-none text-brand">{value}</p>
-                      <p className="mt-2 text-[13px] text-body">{label}</p>
-                    </li>
-                  ))}
-                </ul>
               </div>
             </Reveal>
 
@@ -147,12 +119,6 @@ export function Doctors() {
                 </p>
               ))}
 
-              <figure className="mt-9 border-l-2 border-gold pl-6">
-                <blockquote className="font-display text-[20px] leading-[1.55] text-ink">
-                  “{doctor.quote}”
-                </blockquote>
-              </figure>
-
               <h3 className="mt-12 font-display text-[22px] font-bold text-ink">Areas of Expertise</h3>
               <ul className="mt-4 grid border-b border-line sm:grid-cols-2 sm:gap-x-10">
                 {doctor.expertise.map((item) => (
@@ -162,7 +128,7 @@ export function Doctors() {
                 ))}
               </ul>
 
-              <h3 className="mt-12 font-display text-[22px] font-bold text-ink">Education & Training</h3>
+              <h3 className="mt-12 font-display text-[22px] font-bold text-ink">Qualifications</h3>
               <ul className="mt-4 border-b border-line">
                 {doctor.education.map((item) => (
                   <li
@@ -190,10 +156,17 @@ export function Doctors() {
                 </Link>
                 <a
                   href={contactInfo.phoneHref}
-                  className="inline-flex h-[52px] mt-1 items-center justify-center gap-2.5 rounded-full border border-ink/15 bg-white px-7 text-[15px] font-semibold text-ink transition-colors duration-300 hover:border-brand hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+                  className="inline-flex h-[52px] items-center justify-center gap-2.5 rounded-full border border-ink/15 bg-white px-7 text-[15px] font-semibold text-ink transition-colors duration-300 hover:border-brand hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
                 >
                   <Phone className="h-[18px] w-[18px] text-brand" strokeWidth={1.8} aria-hidden />
                   {contactInfo.phone}
+                </a>
+                <a
+                  href={secondaryPhone.href}
+                  className="inline-flex h-[52px] items-center justify-center gap-2.5 rounded-full border border-ink/15 bg-white px-7 text-[15px] font-semibold text-ink transition-colors duration-300 hover:border-brand hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+                >
+                  <Phone className="h-[18px] w-[18px] text-brand" strokeWidth={1.8} aria-hidden />
+                  {secondaryPhone.display}
                 </a>
               </div>
             </Reveal>

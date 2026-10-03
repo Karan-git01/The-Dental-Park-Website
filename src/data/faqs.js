@@ -32,14 +32,14 @@ export const faqs = [
     icon: UserRound,
     question: "Who will be treating me?",
     answer:
-      "Every treatment is performed by a specialist in that field — implantologists, orthodontists, endodontists and paediatric dentists.",
+      "Every treatment is planned and performed personally by Dr. Pratik Singh, from your first consultation to the final review.",
   },
-  {
-    icon: CreditCard,
-    question: "Do you accept insurance or EMI payment options?",
-    answer:
-      "Yes. We support all major cards, UPI, insurance reimbursement documentation and no-cost EMI plans on eligible treatments.",
-  },
+  // {
+  //   icon: CreditCard,
+  //   question: "Do you accept insurance or EMI payment options?",
+  //   answer:
+  //     "Yes. We support all major cards, UPI, insurance reimbursement documentation and no-cost EMI plans on eligible treatments.",
+  // },
   {
     icon: IndianRupee,
     question: "How much does a dental consultation cost?",

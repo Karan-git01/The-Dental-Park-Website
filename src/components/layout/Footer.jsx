@@ -26,11 +26,9 @@ function WhatsAppIcon({ className, strokeWidth = 1.7 }) {
   );
 }
 
-// TODO: confirmed via the clinic's live site (thedentalpark.co.in) that
-// it does not link out to any social accounts of its own — only
-// WhatsApp. These four remain generic placeholder URLs, not real
-// clinic handles. Replace with the real accounts once you have them,
-// or drop the ones that don't exist.
+// TODO: Instagram and Facebook are still generic placeholder URLs, not real
+// clinic handles. Replace with the real accounts once you have them, or drop
+// the ones that don't exist. WhatsApp is the clinic's real number.
 const socials = [
   { icon: Instagram, label: "Instagram", href: "https://instagram.com" },
   { icon: Facebook, label: "Facebook", href: "https://facebook.com" },
@@ -155,13 +153,13 @@ export function Footer() {
                 <span className="break-all">thedentalparksocials@gmail.com</span>
               </a>
               <a
-                href="https://www.thedentalpark.co.in/"
+                href="https://www.thedentalpark.in/"
                 target="_blank"
                 rel="noreferrer"
                 className="flex items-center gap-3 text-white/80 transition-colors hover:text-gold"
               >
                 <Globe className="h-[18px] w-[18px] shrink-0 text-gold" strokeWidth={1.7} aria-hidden />
-                thedentalpark.co.in
+                thedentalpark.in
               </a>
             </div>
           </div>

@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 import { ArrowRight, Clock, MapPin, Navigation, Phone } from "lucide-react";
 import { SiteLayout } from "../components/layout/SiteLayout";
 import { PageHeader } from "../components/shared/PageHeader";
 import { Reveal } from "../components/shared/Reveal";
+import { Seo } from "../components/seo/Seo";
+import { dentistSchema, breadcrumbSchema } from "../lib/schema";
 import { clinics } from "../data/clinics";
 
 // clinic.hours can be a plain string, a single { day, time } object,
@@ -23,13 +24,6 @@ function getHoursLines(hours) {
   return [String(hours)];
 }
 
-// schema.org Dentist.openingHours expects a string or array of strings
-// like "Mo-Sa 10:00-20:00", not { day, time } objects.
-function getOpeningHoursSchema(hours) {
-  const lines = getHoursLines(hours);
-  return lines.length === 1 ? lines[0] : lines;
-}
-
 // Shared presentation
 const circleClass = "grid h-14 w-14 shrink-0 place-items-center rounded-full bg-brand";
 const focusClass =
@@ -38,32 +32,7 @@ const focusClass =
 export function Clinics() {
   return (
     <SiteLayout>
-      <Helmet>
-        <title>Visit The Dental Park | Kolkata Dental Clinic</title>
-        <meta
-          name="description"
-          content="Visit The Dental Park at Hazra Rd, Kalighat, Kolkata — address, timings, directions and same-day appointments."
-        />
-        <meta property="og:title" content="Visit The Dental Park" />
-        <meta
-          property="og:description"
-          content="The Dental Park's Kolkata clinic — address, timings, directions and appointment booking."
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="/clinics" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <link rel="canonical" href="/clinics" />
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Dentist",
-            name: clinics[0]?.name,
-            address: clinics[0]?.address,
-            telephone: clinics[0]?.phone,
-            openingHours: getOpeningHoursSchema(clinics[0]?.hours),
-          })}
-        </script>
-      </Helmet>
+      <Seo path="/clinics" schema={[dentistSchema(), breadcrumbSchema("/clinics")]} />
 
       <PageHeader
         eyebrow="Visit Us"

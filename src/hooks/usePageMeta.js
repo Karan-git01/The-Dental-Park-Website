@@ -3,7 +3,7 @@ import { useEffect } from "react";
 // TODO: confirm the live domain once it's finalized, then update SITE_URL.
 const DEFAULT_DESCRIPTION =
   "THE DENTAL PARK is Dr. Pratik Singh's dental clinic in Kalighat, Kolkata, offering comprehensive dental care and treatments.";
-const SITE_URL = "https://www.thedentalpark.com";
+const SITE_URL = "https://www.thedentalpark.in";
 
 export function usePageMeta(title, description, canonicalPath) {
   useEffect(() => {

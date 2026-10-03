@@ -204,7 +204,7 @@ export const treatments = [
       { title: "Provisional Restorations", description: "Test the new bite and aesthetics." },
       { title: "Definitive Restorations", description: "Final zirconia or ceramic work delivered." },
     ],
-    benefits: ["Restores full chewing function", "Corrects bite and jaw pain", "Rebuilds facial support", "Long term durability", "Single coordinated team"],
+    benefits: ["Restores full chewing function", "Corrects bite and jaw pain", "Rebuilds facial support", "Long term durability", "One dentist from plan to finish"],
     faqs: [
       { question: "How long does full mouth rehab take?", answer: "Typically 4 to 9 months depending on healing and complexity." },
       { question: "Can it be done under sedation?", answer: "Yes, sedation options are available for longer appointments." },
@@ -289,7 +289,7 @@ export const treatments = [
     category: "Restorative Dentistry",
     icon: Scissors,
     summary:
-      "Specialist oral and maxillofacial procedures including wisdom tooth removal, bone grafting, cyst removal and jaw correction.",
+      "Oral and maxillofacial procedures including wisdom tooth removal, bone grafting, cyst removal and jaw correction.",
     whoNeedsIt: "For impacted wisdom teeth, jaw irregularities, facial trauma or pre-implant bone grafting.",
     process: [
       { title: "Surgical Consultation", description: "CBCT imaging and detailed risk assessment." },
@@ -297,7 +297,7 @@ export const treatments = [
       { title: "Procedure", description: "Performed under local anaesthesia or sedation." },
       { title: "Recovery Care", description: "Medication, diet plan and review appointments." },
     ],
-    benefits: ["Specialist surgical team", "Sedation options", "Sterile operating protocol", "Clear recovery plan", "Comprehensive follow-up"],
+    benefits: ["Planned and performed by one dentist", "Sedation options", "Sterile operating protocol", "Clear recovery plan", "Comprehensive follow-up"],
     faqs: [
       { question: "Will I be asleep?", answer: "Most procedures use local anaesthesia; sedation is available when preferred." },
       { question: "How long is recovery?", answer: "Typically 3 to 7 days for routine surgical procedures." },
@@ -312,7 +312,7 @@ export const treatmentHighlights = [
   { value: "7+", label: "Years of\nExperience", icon: Activity },
   { value: "Advanced", label: "Digital\nTechnology", icon: Sparkles },
   { value: "Sterilized", label: "Environment\n& Safety", icon: Stethoscope },
-  { value: "Expert", label: "Specialist\nTeam", icon: Smile },
+  { value: "Doctor-led", label: "Personal\nCare", icon: Smile },
   { value: "Transparent", label: "Pricing\nAlways", icon: Layers },
   { value: "Lifetime", label: "Support\n& Reviews", icon: Crown },
 ];

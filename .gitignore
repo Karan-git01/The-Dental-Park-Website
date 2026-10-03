@@ -22,3 +22,14 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+dist-server
+
+# Environment variables (never commit secrets)
+# .env
+# .env.*
+# !.env.example
+
+# Vercel local data
+.vercel

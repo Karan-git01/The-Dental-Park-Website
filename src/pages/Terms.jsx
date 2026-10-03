@@ -1,7 +1,8 @@
-import { Helmet } from "react-helmet-async";
 import { SiteLayout } from "../components/layout/SiteLayout";
 import { PageHeader } from "../components/shared/PageHeader";
 import { LegalContent } from "../components/sections/LegalContent";
+import { Seo } from "../components/seo/Seo";
+import { breadcrumbSchema } from "../lib/schema";
 import { contactInfo } from "../data/navigation";
 
 const CLINIC_EMAIL = "thedentalparksocials@gmail.com";
@@ -111,22 +112,7 @@ const sections = [
 export function Terms() {
   return (
     <SiteLayout>
-      <Helmet>
-        <title>Terms of Use | The Dental Park</title>
-        <meta
-          name="description"
-          content="The terms that apply when you use The Dental Park website in Kolkata, request an appointment or contact our team."
-        />
-        <meta property="og:title" content="Terms of Use | The Dental Park" />
-        <meta
-          property="og:description"
-          content="The terms that apply when you use our website and request appointments."
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="/terms" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <link rel="canonical" href="/terms" />
-      </Helmet>
+      <Seo path="/terms" schema={breadcrumbSchema("/terms")} />
 
       <PageHeader
         eyebrow="Legal"

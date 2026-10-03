@@ -1,7 +1,8 @@
-import { Helmet } from "react-helmet-async";
 import { SiteLayout } from "../components/layout/SiteLayout";
 import { PageHeader } from "../components/shared/PageHeader";
 import { LegalContent } from "../components/sections/LegalContent";
+import { Seo } from "../components/seo/Seo";
+import { breadcrumbSchema } from "../lib/schema";
 import { contactInfo } from "../data/navigation";
 
 const CLINIC_EMAIL = "thedentalparksocials@gmail.com";
@@ -124,22 +125,7 @@ const sections = [
 export function PrivacyPolicy() {
   return (
     <SiteLayout>
-      <Helmet>
-        <title>Privacy Policy | The Dental Park</title>
-        <meta
-          name="description"
-          content="How The Dental Park in Kolkata collects, uses and protects your personal information when you visit our website or book an appointment."
-        />
-        <meta property="og:title" content="Privacy Policy | The Dental Park" />
-        <meta
-          property="og:description"
-          content="How we collect, use and protect your personal information."
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="/privacy-policy" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <link rel="canonical" href="/privacy-policy" />
-      </Helmet>
+      <Seo path="/privacy-policy" schema={breadcrumbSchema("/privacy-policy")} />
 
       <PageHeader
         eyebrow="Legal"

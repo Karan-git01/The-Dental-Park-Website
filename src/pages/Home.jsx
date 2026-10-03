@@ -7,10 +7,13 @@ import { WhyTrust } from "../components/sections/WhyTrust";
 import { Testimonials } from "../components/sections/Testimonials";
 import { FAQSection } from "../components/sections/FAQSection";
 import { TrustBadgeMarquee } from "../components/shared/TrustBadgeMarquee";
+import { Seo } from "../components/seo/Seo";
+import { dentistSchema } from "../lib/schema";
 
 export function Home() {
   return (
     <SiteLayout>
+      <Seo path="/" schema={dentistSchema()} />
       <Hero />
       <HelpSelector />
       <TreatmentsGrid />

@@ -1,9 +1,10 @@
-import { Helmet } from "react-helmet-async";
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import { SiteLayout } from "../components/layout/SiteLayout";
 import { PageHeader } from "../components/shared/PageHeader";
 import { Reveal } from "../components/shared/Reveal";
 import { AppointmentForm } from "../components/sections/AppointmentForm";
+import { Seo } from "../components/seo/Seo";
+import { dentistSchema, breadcrumbSchema } from "../lib/schema";
 import { contactInfo } from "../data/navigation";
 
 /**
@@ -31,22 +32,7 @@ const descClass = "mt-1 text-[14.5px] leading-[1.6] text-body";
 export function Contact() {
   return (
     <SiteLayout>
-      <Helmet>
-        <title>Contact & Book an Appointment | The Dental Park</title>
-        <meta
-          name="description"
-          content={`Book a dental appointment at The Dental Park. Call ${contactInfo.phone}, chat on WhatsApp or send us your preferred slot — same-day visits available.`}
-        />
-        <meta property="og:title" content="Contact The Dental Park" />
-        <meta
-          property="og:description"
-          content="Call, WhatsApp or book online — same-day dental appointments available."
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="/contact" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <link rel="canonical" href="/contact" />
-      </Helmet>
+      <Seo path="/contact" schema={[dentistSchema(), breadcrumbSchema("/contact")]} />
 
       <PageHeader
         eyebrow="Contact"

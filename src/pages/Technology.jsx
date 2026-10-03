@@ -1,8 +1,9 @@
-import { Helmet } from "react-helmet-async";
 import { Cpu, Microscope, Radiation, ScanLine, Sparkles, Wand2 } from "lucide-react";
 import { SiteLayout } from "../components/layout/SiteLayout";
 import { PageHeader } from "../components/shared/PageHeader";
 import { Reveal } from "../components/shared/Reveal";
+import { Seo } from "../components/seo/Seo";
+import { breadcrumbSchema } from "../lib/schema";
 
 const tech = [
   { icon: ScanLine, title: "Intraoral 3D Scanners", body: "Digital impressions replace messy trays for a precise, comfortable fit." },
@@ -16,22 +17,7 @@ const tech = [
 export function Technology() {
   return (
     <SiteLayout>
-      <Helmet>
-        <title>Dental Technology | Scanners, CBCT & Lasers — The Dental Park</title>
-        <meta
-          name="description"
-          content="Intraoral scanners, CBCT imaging, dental lasers and CAD/CAM milling — the technology behind precise, comfortable dentistry at The Dental Park."
-        />
-        <meta property="og:title" content="Our Dental Technology | The Dental Park" />
-        <meta
-          property="og:description"
-          content="Scanners, CBCT, lasers and CAD/CAM milling for precise, comfortable care."
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="/technology" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <link rel="canonical" href="/technology" />
-      </Helmet>
+      <Seo path="/technology" schema={breadcrumbSchema("/technology")} />
 
       <PageHeader
         eyebrow="Technology"

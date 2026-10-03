@@ -190,39 +190,77 @@ export function Hero() {
             {slide.eyebrow}
           </span>
 
-          <h1 className="mt-4 min-h-[104px] font-display text-brand sm:min-h-[136px] md:mt-6 md:min-h-[212px] lg:mt-8 lg:min-h-[300px]">
-            <span
-              className={cn(
-                "block py-1 text-[15px] font-bold leading-[1.2] sm:text-[20px] md:text-[30px] lg:text-[40px]",
-                reveal(1),
-              )}
-            >
-              {slide.titleTop}
-            </span>
-            {slide.titleAccent.map((line, i) => (
-              <span
-                key={line}
-                className={cn(
-                  "block py-1 text-[26px] font-bold uppercase leading-[1] tracking-[-0.01em] sm:text-[36px] md:text-[54px] lg:text-[72px] lg:leading-[0.9] xl:text-[78px]",
-                  i === slide.titleAccent.length - 1 ? "text-gold" : "text-brand",
-                  reveal(2 + i),
-                )}
-              >
-                {line}
-              </span>
-            ))}
-          </h1>
+          {/*
+            Title stack: every slide's title sits in the SAME grid cell, so the
+            cell is always as tall as the tallest title at the current
+            breakpoint. Only the active slide is visible, so the layout below
+            never moves when the slide changes (replaces the fixed min-h guesses).
+          */}
+          <div className="mt-4 grid md:mt-6 lg:mt-8">
+            {heroSlides.map((s, i) => {
+              const isActive = i === index;
+              const Title = isActive ? "h1" : "div";
+              return (
+                <Title
+                  key={s.id}
+                  aria-hidden={!isActive}
+                  className={cn(
+                    "col-start-1 row-start-1 font-display text-brand motion-safe:transition-opacity motion-safe:duration-500",
+                    isActive ? "opacity-100" : "pointer-events-none opacity-0",
+                  )}
+                >
+                  <span
+                    className={cn(
+                      "block py-1 text-[15px] font-bold leading-[1.2] sm:text-[20px] md:text-[30px] lg:text-[40px]",
+                      reveal(1),
+                    )}
+                  >
+                    {s.titleTop}
+                  </span>
+                  {s.titleAccent.map((line, li) => (
+                    <span
+                      key={line}
+                      className={cn(
+                        "block py-1 text-[26px] font-bold uppercase leading-[1] tracking-[-0.01em] sm:text-[36px] md:text-[54px] lg:text-[72px] lg:leading-[0.9] xl:text-[78px]",
+                        li === s.titleAccent.length - 1 ? "text-gold" : "text-brand",
+                        reveal(2 + li),
+                      )}
+                    >
+                      {line}
+                    </span>
+                  ))}
+                </Title>
+              );
+            })}
+          </div>
 
           <span className="mt-6 block h-[2px] mb-6 w-14 rounded-full bg-gold" />
 
-          <p
-            className={cn(
-              "mt-3 min-h-[84px] max-w-[440px] text-[13px] leading-[1.6] text-body sm:min-h-[72px] sm:text-[15px] md:mt-6 md:min-h-[84px] md:text-[17px] lg:mt-7 lg:min-h-[90px] lg:text-[18px]",
-              reveal(4),
-            )}
-          >
-            {slide.description}
-          </p>
+          {/* Description stack: same single-cell trick, so the tallest paragraph sets the height */}
+          <div className="mt-3 grid md:mt-6 lg:mt-7">
+            {heroSlides.map((s, i) => (
+              // Wrapper owns slide visibility; the <p> owns the reveal animation.
+              // Keeping them on separate elements stops reveal()'s opacity-100
+              // from overriding the inactive slide's opacity-0 (the overlap bug).
+              <div
+                key={s.id}
+                aria-hidden={i !== index}
+                className={cn(
+                  "col-start-1 row-start-1 motion-safe:transition-opacity motion-safe:duration-500",
+                  i === index ? "opacity-100" : "pointer-events-none opacity-0",
+                )}
+              >
+                <p
+                  className={cn(
+                    "max-w-[440px] text-[13px] leading-[1.6] text-body sm:text-[15px] md:text-[17px] lg:text-[18px]",
+                    reveal(4),
+                  )}
+                >
+                  {s.description}
+                </p>
+              </div>
+            ))}
+          </div>
 
           <div className={cn("mt-3 md:mt-8", reveal(5))}>
             <HeroCTA />
