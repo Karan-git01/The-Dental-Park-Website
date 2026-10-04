@@ -1,15 +1,15 @@
-import veneersBefore from "../assets/images/gallery/veneers-before.jpg";
-import veneersAfter from "../assets/images/gallery/veneers-after.jpg";
-import implantsBefore from "../assets/images/gallery/implants-before.jpg";
-import implantsAfter from "../assets/images/gallery/implants-after.jpg";
-import alignersBefore from "../assets/images/gallery/aligners-before.jpg";
-import alignersAfter from "../assets/images/gallery/aligners-after.jpg";
-import whiteningBefore from "../assets/images/gallery/whitening-before.jpg";
-import whiteningAfter from "../assets/images/gallery/whitening-after.jpg";
-import bracesBefore from "../assets/images/gallery/braces-before.jpg";
-import bracesAfter from "../assets/images/gallery/braces-after.jpg";
-import fullMouthBefore from "../assets/images/gallery/fullmouth-before.jpg";
-import fullMouthAfter from "../assets/images/gallery/fullmouth-after.jpg";
+import veneersBefore from "../assets/images/gallery/veneers-before.webp";
+import veneersAfter from "../assets/images/gallery/veneers-after.webp";
+import implantsBefore from "../assets/images/gallery/implants-before.webp";
+import implantsAfter from "../assets/images/gallery/implants-after.webp";
+import alignersBefore from "../assets/images/gallery/aligners-before.webp";
+import alignersAfter from "../assets/images/gallery/aligners-after.webp";
+import whiteningBefore from "../assets/images/gallery/whitening-before.webp";
+import whiteningAfter from "../assets/images/gallery/whitening-after.webp";
+import bracesBefore from "../assets/images/gallery/braces-before.webp";
+import bracesAfter from "../assets/images/gallery/braces-after.webp";
+import fullMouthBefore from "../assets/images/gallery/fullmouth-before.webp";
+import fullMouthAfter from "../assets/images/gallery/fullmouth-after.webp";
 
 export const galleryCategories = [
   "All Cases",
