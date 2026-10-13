@@ -36,7 +36,7 @@ function BeforeAfter({ item }) {
       <div className="absolute inset-0 transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.02] motion-reduce:transition-none motion-reduce:group-hover:scale-100">
         <img
           src={item.after}
-          alt={`${item.title} — after treatment`}
+          alt={`${item.title}: after treatment at The Dental Park, Kolkata`}
           width={1024}
           height={768}
           loading="lazy"
@@ -45,7 +45,7 @@ function BeforeAfter({ item }) {
         />
         <img
           src={item.before}
-          alt={`${item.title} — before treatment`}
+          alt={`${item.title}: before treatment at The Dental Park, Kolkata`}
           width={1024}
           height={768}
           loading="lazy"
@@ -146,9 +146,11 @@ export function SmileGallery() {
   return (
     <section className="bg-white px-1 py-10 mb-6 lg:py-36" aria-labelledby="gallery-heading">
       <div className="mx-auto max-w-[1280px] px-6 lg:px-10">
-        <h2 id="gallery-heading" className="sr-only">
-          Smile transformations
-        </h2>
+        {/* The page's only h1 (screen-reader and search-engine heading, no visual change).
+            Each case title below is an h2. */}
+        <h1 id="gallery-heading" className="sr-only">
+          Smile Gallery: before and after smile transformations at The Dental Park, Kolkata
+        </h1>
 
         <div className="grid grid-cols-1 gap-x-8 gap-y-5 lg:grid-cols-12 lg:items-center">
           <div className="flex flex-wrap items-center gap-2 lg:col-span-8">
@@ -185,12 +187,15 @@ export function SmileGallery() {
           </p>
         </div>
 
-        {/* Middle column drops down on desktop for an uneven, hand-set rhythm */}
+        {/* Middle column drops down on desktop for an uneven, hand-set rhythm.
+            The <li> is the grid item itself (valid list markup); Reveal sits inside it. */}
         <ul className="mt-12 grid items-start gap-x-6 gap-y-16 sm:grid-cols-2 lg:mt-20 lg:grid-cols-3 lg:gap-x-10 lg:gap-y-24">
           {visible.map((item, i) => (
-            <Reveal as="li" key={item.id} delay={(i % 3) * 90} className="lg:[&:nth-child(3n+2)]:mt-20">
-              <CaseCard item={item} />
-            </Reveal>
+            <li key={item.id} className="lg:[&:nth-child(3n+2)]:mt-20">
+              <Reveal delay={(i % 3) * 90}>
+                <CaseCard item={item} />
+              </Reveal>
+            </li>
           ))}
         </ul>
       </div>
