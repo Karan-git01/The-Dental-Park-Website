@@ -1,11 +1,64 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { CalendarDays, ChevronDown, Phone, Search, X } from "lucide-react";
 import { Logo } from "../shared/Logo";
 import { MobileMenu } from "./MobileMenu";
 import { TreatmentsMegaMenu } from "./TreatmentsMegaMenu";
 import { contactInfo, navItems } from "../../data/navigation";
+import { treatments } from "../../data/treatments";
 import { cn } from "../../lib/utils";
+
+/* ---------- Search suggestion helpers (added) ---------- */
+const GENERIC_WORDS = new Set([
+  "treatment",
+  "treatments",
+  "service",
+  "services",
+  "procedure",
+  "procedures",
+  "dental",
+  "dentistry",
+  "all",
+]);
+const stem = (w) => (w.length > 3 && w.endsWith("s") ? w.slice(0, -1) : w);
+const tokenize = (q) =>
+  q
+    .toLowerCase()
+    .split(/\s+/)
+    .map((t) => t.replace(/[^a-z0-9]/g, ""))
+    .filter(Boolean)
+    .map(stem);
+
+const searchIndex = treatments.map((t) => ({
+  treatment: t,
+  title: t.title.toLowerCase(),
+  meta: `${t.tagline} ${t.category}`.toLowerCase(),
+  body: `${t.summary} ${t.whoNeedsIt} ${t.benefits.join(" ")}`.toLowerCase(),
+}));
+
+function getSuggestions(query) {
+  const tokens = tokenize(query);
+  if (tokens.length === 0) return treatments;
+  if (tokens.every((t) => GENERIC_WORDS.has(t))) return treatments;
+  const specific = tokens.filter((t) => !GENERIC_WORDS.has(t));
+
+  return searchIndex
+    .map(({ treatment, title, meta, body }) => {
+      let score = 0;
+      for (const tok of specific) {
+        if (title.startsWith(tok) || title.includes(` ${tok}`)) score += 20;
+        else if (title.includes(tok)) score += 12;
+        else if (meta.includes(tok)) score += 5;
+        else if (body.includes(tok)) score += 1;
+        else return null;
+      }
+      return { treatment, score };
+    })
+    .filter(Boolean)
+    .sort((a, b) => b.score - a.score)
+    .map((r) => r.treatment);
+}
+/* ------------------------------------------------------- */
 
 export function Navbar() {
   const { pathname } = useLocation();
@@ -15,8 +68,12 @@ export function Navbar() {
   const [progress, setProgress] = useState(0);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const [activeIndex, setActiveIndex] = useState(-1); // added
   const searchInputRef = useRef(null);
   const searchWrapRef = useRef(null);
+  const suggestionsRef = useRef(null); // added
+
+  const suggestions = useMemo(() => getSuggestions(searchValue), [searchValue]); // added
 
   useEffect(() => {
     const onScroll = () => {
@@ -57,13 +114,52 @@ export function Navbar() {
     };
   }, [searchOpen]);
 
+  // added: reset highlighted suggestion when typing
+  useEffect(() => {
+    setActiveIndex(-1);
+  }, [searchValue]);
+
+  // added: keep highlighted suggestion visible while using arrow keys
+  useEffect(() => {
+    if (activeIndex < 0) return;
+    suggestionsRef.current
+      ?.querySelector(`[data-index="${activeIndex}"]`)
+      ?.scrollIntoView({ block: "nearest" });
+  }, [activeIndex]);
+
+  // added: go straight to a treatment page
+  const goToTreatment = (t) => {
+    navigate(`/treatments/${t.slug}`);
+    setSearchOpen(false);
+    setSearchValue("");
+  };
+
   const submitSearch = (e) => {
     e.preventDefault();
     const q = searchValue.trim();
     if (!q) return;
+    // added: Enter opens the highlighted (or top) suggestion
+    const pick = suggestions[activeIndex >= 0 ? activeIndex : 0];
+    if (pick) {
+      goToTreatment(pick);
+      return;
+    }
     navigate(`/search?q=${encodeURIComponent(q)}`);
     setSearchOpen(false);
     setSearchValue("");
+  };
+
+  // added: arrow-key navigation inside the input
+  const onInputKeyDown = (e) => {
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setActiveIndex((i) => (suggestions.length ? (i + 1) % suggestions.length : -1));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setActiveIndex((i) =>
+        suggestions.length ? (i <= 0 ? suggestions.length - 1 : i - 1) : -1,
+      );
+    }
   };
 
   return (
@@ -173,6 +269,8 @@ export function Navbar() {
                   type="text"
                   value={searchValue}
                   onChange={(e) => setSearchValue(e.target.value)}
+                  onKeyDown={onInputKeyDown}
+                  autoComplete="off"
                   placeholder="Search treatments..."
                   className="h-full w-full bg-transparent text-[13.5px] text-ink outline-none placeholder:text-ink/40"
                 />
@@ -200,6 +298,59 @@ export function Navbar() {
               >
                 <X className="h-5 w-5" strokeWidth={2} aria-hidden />
               </button>
+            )}
+
+            {/* Suggestions dropdown (added) */}
+            {searchOpen && (
+              <div className="absolute right-0 top-full z-[70] mt-2 w-[22rem] overflow-hidden rounded-2xl border border-black/10 bg-white shadow-float">
+                {suggestions.length > 0 ? (
+                  <ul
+                    ref={suggestionsRef}
+                    role="listbox"
+                    data-lenis-prevent
+                    className="max-h-[360px] overflow-y-auto overscroll-contain p-2"
+                  >
+                    {suggestions.map((t, i) => {
+                      const Icon = t.icon;
+                      return (
+                        <li
+                          key={t.slug}
+                          data-index={i}
+                          role="option"
+                          aria-selected={i === activeIndex}
+                        >
+                          <button
+                            type="button"
+                            onMouseDown={(e) => e.preventDefault()}
+                            onClick={() => goToTreatment(t)}
+                            onMouseEnter={() => setActiveIndex(i)}
+                            className={cn(
+                              "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-colors",
+                              i === activeIndex ? "bg-brand/10" : "hover:bg-black/[0.03]",
+                            )}
+                          >
+                            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-brand/10 text-brand">
+                              <Icon className="h-[18px] w-[18px]" strokeWidth={1.8} aria-hidden />
+                            </span>
+                            <span className="min-w-0">
+                              <span className="block truncate text-[14px] font-medium text-ink">
+                                {t.title}
+                              </span>
+                              <span className="block truncate text-[12px] text-ink/55">
+                                {t.category}
+                              </span>
+                            </span>
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                ) : (
+                  <p className="px-4 py-5 text-center text-[13px] text-ink/60">
+                    No treatments found for “{searchValue}”
+                  </p>
+                )}
+              </div>
             )}
           </div>
         </div>

@@ -134,17 +134,19 @@ export function AppointmentForm() {
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7, ease: EASE }}
           >
+            {/* Desktop only (lg:): the whole block is centred on the page.
+                Below lg every class is exactly as before. */}
             <h2
               id="appointment-heading"
-              className="max-w-[720px] font-display text-[30px] font-bold leading-[1.12] tracking-[-0.015em] text-white sm:text-[40px] lg:text-[46px]"
+              className="max-w-[720px] font-display text-[30px] font-bold leading-[1.12] tracking-[-0.015em] text-white sm:text-[40px] lg:mx-auto lg:text-center lg:text-[46px]"
             >
               Book an Appointment at The Dental Park Near You
             </h2>
-            <p className="mt-5 max-w-[520px] text-[15px] leading-[1.7] text-white/70">
+            <p className=" underline mt-5 max-w-[520px] text-[15px] leading-[1.7] text-white/70 lg:mx-auto lg:max-w-none lg:whitespace-nowrap lg:text-center">
               Takes under a minute. We&rsquo;ll call you back to confirm your slot — no payment needed to book.
             </p>
 
-            <form onSubmit={submit} noValidate className="mt-14 max-w-[820px]">
+            <form onSubmit={submit} noValidate className="mt-14 md:mt-15 max-w-[820px] lg:mx-auto">
               <div className="grid gap-x-12 gap-y-2 sm:grid-cols-2">
                 <Field label="Full Name" htmlFor="appt-name" error={err("name")}>
                   <input

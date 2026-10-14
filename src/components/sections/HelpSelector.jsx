@@ -22,7 +22,7 @@ export function HelpSelector() {
   };
 
   return (
-    <section id="help" className="bg-background py-16 lg:py-24" aria-labelledby="help-heading">
+    <section id="help" className="bg-background py-16 lg:pt-24" aria-labelledby="help-heading">
       <div className="mx-auto max-w-[1180px] px-5 lg:px-8">
         <Reveal as="header" className="text-center">
           <h2
@@ -50,7 +50,7 @@ export function HelpSelector() {
                 )}
               >
                 <ArrowRight
-                  className="absolute right-4 top-4 h-4 w-4 text-brand opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:opacity-100 group-focus-visible:opacity-100"
+                  className="absolute right-12 top-12 h-7 w-7 text-brand opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:opacity-100 group-focus-visible:opacity-100"
                   strokeWidth={2}
                   aria-hidden
                 />

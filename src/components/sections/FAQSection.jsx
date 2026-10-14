@@ -22,14 +22,18 @@ export function FAQSection({ showHeading = true }) {
             <Reveal className="lg:sticky lg:top-28 lg:self-start">
               <h2
                 id="faq-heading"
-                className="font-display text-[28px] font-bold leading-[1.12] tracking-[-0.01em] text-ink sm:text-[40px] lg:text-[44px]"
+                className="font-display text-[28px] font-bold leading-[1.12] tracking-[-0.01em] text-ink max-lg:text-center sm:text-[40px] lg:text-[44px]"
               >
                 Frequently asked questions
               </h2>
-              <p className="mt-5 max-w-[36ch] text-[15px] leading-[1.75] text-body">
+              {/* Same accent as the other sections: centred on mobile/tablet, left-aligned on desktop */}
+              <span aria-hidden className="mt-4 flex items-center gap-2 max-lg:justify-center md:mt-5">
+                <span className="block h-[3px] w-10 rounded-full bg-brand" />
+                <span className="block h-[3px] w-[3px] rounded-full bg-gold" />
+              </span>
+              <p className="mt-5 max-w-[36ch] text-[15px] leading-[1.75] text-body max-lg:mx-auto max-lg:text-center">
                 Everything you need to know about our services, appointments and treatments.
               </p>
-              <div className="mt-8 hidden h-px w-16 bg-brand/30 lg:block" />
             </Reveal>
           ) : (
             <h2 id="faq-heading" className="sr-only">

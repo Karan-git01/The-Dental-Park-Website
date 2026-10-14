@@ -7,28 +7,42 @@ export function WhyTrust() {
   return (
     <section id="why-trust" className="bg-white py-16 lg:py-24" aria-labelledby="why-trust-heading">
       <div className="mx-auto max-w-[1180px] px-5 lg:px-8">
-        <Reveal as="header">
+        {/* Mobile/tablet: unchanged stack (heading, image, cards), heading centred.
+            Desktop (lg:): heading spans the top; below it the square image is pinned on
+            the left and the pillar cards sit on the right, staying put until
+            the cards finish scrolling, then both move on (same pattern as the
+            treatments grid). */}
+        <div className="lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-x-14">
+        <Reveal as="header" className="text-center lg:col-span-2 lg:col-start-1 lg:row-start-1">
           <h2
             id="why-trust-heading"
-            className="font-display text-[30px] font-bold leading-tight text-ink sm:text-[40px] lg:text-[46px]"
+            className="font-display text-[30px] font-bold leading-tight text-ink sm:text-[40px] lg:text-[46px] lg:tracking-[-0.015em]"
           >
             Why Trust The Dental Park
           </h2>
-          <span className="mt-4 block h-[3px] w-10 rounded-full bg-brand" />
+          <span aria-hidden className="mt-4 flex items-center justify-center gap-2 md:mt-5">
+            <span className="block h-[3px] w-10 rounded-full bg-brand" />
+            <span className="block h-[3px] w-[3px] rounded-full bg-gold" />
+          </span>
         </Reveal>
 
-        <Reveal variant="scale" className="mt-9 overflow-hidden rounded-lg lg:mt-12">
+        {/* Square frame on desktop so the photo is never cropped; sticky on the left.
+            Mobile and tablet keep the existing fixed-height crop. */}
+        <Reveal
+          variant="scale"
+          className="mt-9 overflow-hidden rounded-lg lg:sticky lg:top-28 lg:col-start-1 lg:row-start-2 lg:mt-12 lg:aspect-square lg:self-start"
+        >
           <img
             src={trustImage}
             alt="Dentist welcoming a patient at The Dental Park clinic"
             width={1600}
             height={1000}
             loading="lazy"
-            className="h-[220px] w-full object-cover transition-transform duration-[900ms] ease-out hover:scale-[1.03] sm:h-[360px] lg:h-[480px]"
+            className="h-[220px] w-full object-cover transition-transform duration-[900ms] ease-out hover:scale-[1.03] sm:h-[360px] lg:h-full"
           />
         </Reveal>
 
-        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:mt-10">
+        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:col-start-2 lg:row-start-2 lg:mt-12 lg:grid-cols-1">
           {trustPillars.map(({ icon: Icon, title, points }, i) => {
             const dark = i % 2 === 1;
             return (
@@ -86,6 +100,7 @@ export function WhyTrust() {
               </Reveal>
             );
           })}
+        </div>
         </div>
       </div>
     </section>

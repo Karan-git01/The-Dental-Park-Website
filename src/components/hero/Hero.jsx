@@ -262,7 +262,7 @@ export function Hero() {
             ))}
           </div>
 
-          <div className={cn("mt-3 md:mt-8", reveal(5))}>
+          <div className={cn("mt-6 md:mt-8", reveal(5))}>
             <HeroCTA />
           </div>
 

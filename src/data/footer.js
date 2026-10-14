@@ -19,7 +19,6 @@ export const footerColumns = [
       { label: "Dental Implants", to: "/treatments/dental-implants" },
       { label: "Braces & Aligners", to: "/treatments/braces" },
       { label: "Root Canal Treatment", to: "/treatments/root-canal" },
-      { label: "Cosmetic Dentistry", to: "/treatments/smile-design" },
       { label: "Paediatric Dentistry", to: "/treatments/kids-dentistry" },
       { label: "Laser Dentistry", to: "/treatments/laser-dentistry" },
     ],

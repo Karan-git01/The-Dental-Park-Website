@@ -97,7 +97,7 @@ function CaseCard({ item }) {
     <article className=" group flex flex-col">
       <BeforeAfter item={item} />
 
-      <div className="mt-6 flex flex-col">
+      <div className="mt-6 px-6 flex flex-col">
         <p className="text-[13.5px] font-medium text-brand">{item.category}</p>
 
         <h2 className="mt-2 font-display text-[24px] font-semibold leading-[1.15] tracking-[-0.02em] text-ink lg:text-[28px]">
@@ -187,11 +187,11 @@ export function SmileGallery() {
           </p>
         </div>
 
-        {/* Middle column drops down on desktop for an uneven, hand-set rhythm.
-            The <li> is the grid item itself (valid list markup); Reveal sits inside it. */}
+        {/* Plain even grid on desktop. The <li> is the grid item itself (valid list markup);
+            Reveal sits inside it. */}
         <ul className="mt-12 grid items-start gap-x-6 gap-y-16 sm:grid-cols-2 lg:mt-20 lg:grid-cols-3 lg:gap-x-10 lg:gap-y-24">
           {visible.map((item, i) => (
-            <li key={item.id} className="lg:[&:nth-child(3n+2)]:mt-20">
+            <li key={item.id}>
               <Reveal delay={(i % 3) * 90}>
                 <CaseCard item={item} />
               </Reveal>
